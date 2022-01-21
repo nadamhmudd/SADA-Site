@@ -17,10 +17,17 @@ body {
   margin-bottom: 60px;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+}
+
 table{
     text-align: center;
 }
-thead, tbody,th, td{
+tbody,th, td{
     border: 1px solid;
 }
 
