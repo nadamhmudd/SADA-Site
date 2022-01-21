@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <LINK REL="SHORTCUT ICON" href="~/logo.ico">
+    <title>@ViewData["Title"]</title>
+    <partial name="Partial/_Styles">
+    
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SADA</a>
+                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarColor02">
+                    <partial name="Partial/_MenuBar">
+                </div>
+
+                @*<form class="d-flex">
+                    <input class="form-control me-sm-2" type="text" placeholder="Search">
+                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                </form>*@
+            </div>
+        <nav/>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <partial name="Partial/_TempData">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - SADA - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <partial name="Partial/_Scripts">
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

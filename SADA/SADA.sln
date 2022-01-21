@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SADAWeb", "SADAWeb\SADAWeb.csproj", "{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SADA.DataAccess", "SADA.DataAccess\SADA.DataAccess.csproj", "{98C77726-5910-44F4-B77B-ACDB20382689}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SADA.Models", "SADA.Models\SADA.Models.csproj", "{C145A1FA-2192-4AC9-8CB3-9131542295CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SADA.Utility", "SADA.Utility\SADA.Utility.csproj", "{C0C4A571-6713-497B-AA93-FBEE03783EF7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98C77726-5910-44F4-B77B-ACDB20382689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98C77726-5910-44F4-B77B-ACDB20382689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98C77726-5910-44F4-B77B-ACDB20382689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98C77726-5910-44F4-B77B-ACDB20382689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C145A1FA-2192-4AC9-8CB3-9131542295CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C145A1FA-2192-4AC9-8CB3-9131542295CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C145A1FA-2192-4AC9-8CB3-9131542295CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C145A1FA-2192-4AC9-8CB3-9131542295CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C4A571-6713-497B-AA93-FBEE03783EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C4A571-6713-497B-AA93-FBEE03783EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C4A571-6713-497B-AA93-FBEE03783EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C4A571-6713-497B-AA93-FBEE03783EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA901970-C8A7-4DE5-A087-4340D7D45271}
+	EndGlobalSection
+EndGlobal
