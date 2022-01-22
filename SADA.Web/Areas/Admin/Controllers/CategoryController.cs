@@ -2,7 +2,7 @@
 using SADA.Core.Models;
 using SADA.Core.Interfaces;
 
-namespace SADA.Controllers;
+namespace SADA.Web.Areas.Admin.Controllers;
 public class CategoryController : Controller
 {
     // To achieve dependency injection

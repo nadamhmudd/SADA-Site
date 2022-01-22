@@ -2,7 +2,8 @@
 using SADA.Core.Models;
 using System.Diagnostics;
 
-namespace SADAWeb.Controllers
+namespace SADA.Web.Controllers
+
 {
     public class HomeController : Controller
     {
