@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SADA.Service
+namespace SADA.Core.Interfaces.Repositories
 {
-    //Static Details
-    internal class SD
+    public interface IBaseRepository
     {
     }
 }

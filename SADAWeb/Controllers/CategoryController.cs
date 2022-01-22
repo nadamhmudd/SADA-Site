@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Database;
-using SADA.Models;
+using SADA.DataAccess;
+using SADA.Core.Models;
 
 namespace SADA.Controllers;
 public class CategoryController : Controller

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Models;
+using SADA.Core.Models;
 using System.Diagnostics;
 
 namespace SADAWeb.Controllers

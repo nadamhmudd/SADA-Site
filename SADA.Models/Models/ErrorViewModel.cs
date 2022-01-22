@@ -1,4 +1,4 @@
-namespace SADA.Models
+namespace SADA.Core.Models
 {
     public class ErrorViewModel
     {

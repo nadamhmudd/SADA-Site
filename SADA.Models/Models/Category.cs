@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SADA.Models;
+namespace SADA.Core.Models;
 
 public class Category
 {

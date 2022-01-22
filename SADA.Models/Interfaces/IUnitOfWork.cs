@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SADA.Service
+namespace SADA.Core.Interfaces
 {
-    //Static Details
-    internal class SD
+    public interface IUnitOfWork
     {
+        void Save();
     }
 }

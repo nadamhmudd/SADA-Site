@@ -1,15 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using SADA.Database;
+using SADA.Core.Interfaces;
+using SADA.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 //setup program to use DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
-builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+//register unitOfWork for our program
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
