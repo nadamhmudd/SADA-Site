@@ -8,14 +8,17 @@ namespace SADA.DataAccess.Repositories
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected DbSet<T> _dbSet;
-        public BaseRepository(ApplicationDbContext db) => _dbSet = db.Set<T>();
+        public BaseRepository(DbSet<T> dbSet) => _dbSet = dbSet;
 
         //CRUD opertaions
-        public IEnumerable<T> GetAll(T entity) => _dbSet;
 
         public void Add(T entity) => _dbSet.Add(entity);
 
         public void AddRange(IEnumerable<T> entities) => _dbSet.AddRange(entities);
+        
+        public IEnumerable<T> GetAll(T entity) => _dbSet;
+
+        public void Update(T entity) => _dbSet.Update(entity);
 
         public void Remove(T entity) => _dbSet.Remove(entity);
 
@@ -44,5 +47,6 @@ namespace SADA.DataAccess.Repositories
 
         //Aggregating operations
         public int Count() => _dbSet.Count();
+
     }
 }

@@ -1,10 +1,5 @@
 ﻿using SADA.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SADA.Core.Interfaces.Repositories
 {
@@ -12,11 +7,11 @@ namespace SADA.Core.Interfaces.Repositories
     public interface IBaseRepository<T> where T : class
     {
 
-        //CRUD Operations except update 
-        public IEnumerable<T> GetAll(T entity);
+        //CRUD Operations
         public void Add(T entity);
         public void AddRange(IEnumerable<T> entities);
-
+        public IEnumerable<T> GetAll(T entity);
+        public void Update(T entity);
         public void Remove(T entity);
         public void RemoveRange(IEnumerable<T> entities);
 

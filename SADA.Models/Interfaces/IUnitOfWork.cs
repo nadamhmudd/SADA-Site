@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SADA.Core.Interfaces.Repositories;
+using SADA.Core.Models;
 
 namespace SADA.Core.Interfaces
 {
     public interface IUnitOfWork
     {
-        void Save();
+        //Register App Repositories
+        public IBaseRepository<Category> Category { get; }
+        //Global Methods
+        public void Save();
     }
 }
