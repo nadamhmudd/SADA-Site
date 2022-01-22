@@ -1,19 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SADA.DataAccess;
 using SADA.Core.Models;
+using SADA.Core.Interfaces;
 
 namespace SADA.Controllers;
 public class CategoryController : Controller
 {
     // To achieve dependency injection
-    private readonly ApplicationDbContext _db;
-    public CategoryController(ApplicationDbContext db) => _db = db;
-    public IActionResult Index()
-    {
-        IEnumerable<Category> categoryList = _db.Categories;
-        return View(categoryList);
-    }
+    private readonly IUnitOfWork _unitOfWork;
+    public CategoryController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
+
+    public IActionResult Index() => View(_unitOfWork.Category.GetAll());
 
     //GET
     public IActionResult Create() => View();
@@ -27,8 +24,8 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid) //depends on constraints in the model
         {
-            _db.Add(obj);
-            _db.SaveChanges();
+            _unitOfWork.Category.Add(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category created successfully";
 
             return RedirectToAction("Index");
@@ -37,14 +34,13 @@ public class CategoryController : Controller
         return View(obj);
     }
 
-
     //GET
     public IActionResult Edit(int? id)
     {
         if (id is null || id == 0)
             return NotFound();
 
-        var categoryFromDb = _db.Categories.Find(id);
+        var categoryFromDb = _unitOfWork.Category.GetById((int)id);
         if (categoryFromDb is null) 
             return NotFound();
 
@@ -60,8 +56,8 @@ public class CategoryController : Controller
 
         if (ModelState.IsValid) //depends on constraints in the model
         {
-            _db.Update(obj);
-            _db.SaveChanges();
+            _unitOfWork.Category.Update(obj);
+            _unitOfWork.Save();
             TempData["success"] = "Category updated successfully";
 
             return RedirectToAction("Index");
@@ -70,14 +66,13 @@ public class CategoryController : Controller
         return View(obj);
     }
 
-
     //GET
     public IActionResult Delete(int? id)
     {
         if (id is null || id == 0)
             return NotFound();
 
-        var categoryFromDb = _db.Categories.Find(id);
+        var categoryFromDb = _unitOfWork.Category.GetById((int)id);
         if (categoryFromDb is null)
             return NotFound();
 
@@ -88,8 +83,8 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Delete(Category obj)
     {
-        _db.Remove(obj);
-        _db.SaveChanges();
+        _unitOfWork.Category.Remove(obj);
+        _unitOfWork.Save();
         TempData["success"] = "Category deleted successfully";
 
         return RedirectToAction("Index");

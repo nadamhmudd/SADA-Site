@@ -1,4 +1,5 @@
-﻿using SADA.Service;
+﻿using SADA.Core.Models;
+using SADA.Service;
 using System.Linq.Expressions;
 
 namespace SADA.Core.Interfaces.Repositories
@@ -10,7 +11,7 @@ namespace SADA.Core.Interfaces.Repositories
         //CRUD Operations
         public void Add(T entity);
         public void AddRange(IEnumerable<T> entities);
-        public IEnumerable<T> GetAll(T entity);
+        public IEnumerable<T> GetAll();
         public void Update(T entity);
         public void Remove(T entity);
         public void RemoveRange(IEnumerable<T> entities);

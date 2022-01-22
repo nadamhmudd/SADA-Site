@@ -16,7 +16,7 @@ namespace SADA.DataAccess.Repositories
 
         public void AddRange(IEnumerable<T> entities) => _dbSet.AddRange(entities);
         
-        public IEnumerable<T> GetAll(T entity) => _dbSet;
+        public IEnumerable<T> GetAll() => _dbSet;
 
         public void Update(T entity) => _dbSet.Update(entity);
 
