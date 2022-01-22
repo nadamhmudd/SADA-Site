@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Web", "SADAWeb\SADA.Web.csproj", "{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Web", "SADA.Web\SADA.Web.csproj", "{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.DataAccess", "SADA.DataAccess\SADA.DataAccess.csproj", "{98C77726-5910-44F4-B77B-ACDB20382689}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Core", "SADA.Models\SADA.Core.csproj", "{C145A1FA-2192-4AC9-8CB3-9131542295CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Core", "SADA.Core\SADA.Core.csproj", "{C145A1FA-2192-4AC9-8CB3-9131542295CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Service", "SADA.Utility\SADA.Service.csproj", "{C0C4A571-6713-497B-AA93-FBEE03783EF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Service", "SADA.Service\SADA.Service.csproj", "{C0C4A571-6713-497B-AA93-FBEE03783EF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
