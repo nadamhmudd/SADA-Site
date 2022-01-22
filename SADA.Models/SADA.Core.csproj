@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SADA.Utility\SADA.Service.csproj" />
+  </ItemGroup>
+
 </Project>

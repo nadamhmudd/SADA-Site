@@ -9,7 +9,6 @@ namespace SADA.DataAccess
 {
     public class UnitOfWork : IUnitOfWork
     {
-        //the only place that connect with database context
         private readonly ApplicationDbContext _db;
         public UnitOfWork(ApplicationDbContext db)
         {

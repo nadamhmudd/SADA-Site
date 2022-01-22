@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SADA.Service
 {
-    //Static Details
-    internal class SD
+    //Static - Constants Details
+    public class SD
     {
+        public const string Ascending = "ASC";
+        public const string Descending = "DESC";
     }
 }
