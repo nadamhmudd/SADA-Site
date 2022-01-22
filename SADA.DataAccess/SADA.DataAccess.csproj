@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SADA.Models\SADA.Models.csproj" />
+    <ProjectReference Include="..\SADA.Models\SADA.Core.csproj" />
   </ItemGroup>
 
 </Project>

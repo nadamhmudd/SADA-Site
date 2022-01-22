@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SADA.Utility
+namespace SADA.Service
 {
     //Static Details
     internal class SD

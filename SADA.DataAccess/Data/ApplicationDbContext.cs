@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SADA.Models;
+using SADA.Core.Models;
 
 namespace SADA.Database;
 public class ApplicationDbContext : DbContext
