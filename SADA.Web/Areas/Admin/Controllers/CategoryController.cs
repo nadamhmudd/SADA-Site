@@ -3,6 +3,8 @@ using SADA.Core.Models;
 using SADA.Core.Interfaces;
 
 namespace SADA.Web.Areas.Admin.Controllers;
+
+[Area("Admin")]
 public class CategoryController : Controller
 {
     // To achieve dependency injection
