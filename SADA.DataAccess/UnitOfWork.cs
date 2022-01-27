@@ -11,6 +11,8 @@ namespace SADA.DataAccess
         //The only place can access database 
         private readonly ApplicationDbContext _db;
         public IBaseRepository<Category> Category { get; private set; }
+        public IBaseRepository<Product> Product { get; private set; }
+
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -18,6 +20,8 @@ namespace SADA.DataAccess
 
             //Initialize App Repositories
             Category = new BaseRepository<Category>(_db.Set<Category>());
+            Product = new BaseRepository<Product>(_db.Set<Product>());
+
         }
 
 
