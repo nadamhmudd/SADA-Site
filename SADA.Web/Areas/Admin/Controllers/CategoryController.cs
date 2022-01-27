@@ -12,7 +12,7 @@ public class CategoryController : Controller
     public CategoryController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
 
-    public IActionResult Index() => View(_unitOfWork.Category.GetAll());
+    public IActionResult Index() => View(_unitOfWork.Category.GetAll(o=>o.DisplayOrder));
 
     //GET
     public IActionResult Create() => View();

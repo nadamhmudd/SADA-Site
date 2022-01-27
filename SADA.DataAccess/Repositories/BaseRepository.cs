@@ -15,8 +15,18 @@ namespace SADA.DataAccess.Repositories
         public void Add(T entity) => _dbSet.Add(entity);
 
         public void AddRange(IEnumerable<T> entities) => _dbSet.AddRange(entities);
-        
-        public IEnumerable<T> GetAll() => _dbSet;
+
+        public IEnumerable<T> GetAll(Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending)
+        {
+            IQueryable<T> query = _dbSet;
+            if (orderBy != null)
+                if (orderByDirection == SD.Ascending)
+                    query = query.OrderBy(orderBy);
+                else
+                    query = query.OrderByDescending(orderBy);
+
+            return query.ToList();
+        }
 
         public void Update(T entity) => _dbSet.Update(entity);
 
