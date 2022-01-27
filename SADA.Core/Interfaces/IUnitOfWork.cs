@@ -7,7 +7,7 @@ namespace SADA.Core.Interfaces
     {
         //Register App Repositories
         public IBaseRepository<Category> Category { get; }
-        public IBaseRepository<Product> Product { get; }
+        public IProductRepository Product { get; }
 
         //Global Methods
         public void Save();

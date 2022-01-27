@@ -25,6 +25,7 @@ public class Product
 
     //[ValidateNever]
     [Required]
+    [Display(Name = "Cover")]
     public string CoverUrl { get; set; }
 
     //Foreigen Key   

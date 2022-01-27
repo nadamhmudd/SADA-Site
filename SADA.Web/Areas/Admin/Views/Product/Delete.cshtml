@@ -1,0 +1,25 @@
+﻿@model Product 
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<form method="post"> @*asp-action="Delete"*@
+	@*<input asp-for="Id" hidden /> add it when delete post with id*@
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Delete Product</h2>
+			<div style="text-align:right">
+				<a asp-action="Index"  style="width:150px">
+					Back to List
+				</a>
+			</div>
+			<hr />
+		</div>
+		<div class="mb-3">
+			<label asp-for="Name"></label>
+			<input asp-for="Name" class="form-control" disabled />
+		</div>
+		<button type="submit" class="btn btn-outline-danger" style="width:150px">Delete</button>
+	</div>
+</form>
+
