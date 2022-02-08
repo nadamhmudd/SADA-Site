@@ -1,10 +1,10 @@
 ﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
+@*<script>
     toastr.options = {
             positionClass: 'toast-top-center'
         };
-</script>
+</script>*@
 @if(TempData["success"] != null)
 {
     <script type="text/javascript">
@@ -17,16 +17,6 @@
     toastr.error('@TempData["error"]');
     </script>
 }
-@*@if(TempData["delete"] != null)
-{
-    <script type="text/javascript">
-    toastr.warning("
-        @TempData["delete"]
-        <button type="button" id="okBtn" class="btn btn-primary">Close me</button>
-    ");
-   
-    </script>
-}*@
 
 
 

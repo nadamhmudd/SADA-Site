@@ -24,12 +24,10 @@ body {
     white-space: nowrap;
 }
 
-table{
+table {
     text-align: center;
 }
-tbody,th, td{
-    border: 1px solid;
-}
+
 
 .toast-center-center {
     top: 50%;

@@ -10,15 +10,26 @@ namespace SADA.DataAccess.Repositories
         protected DbSet<T> _dbSet;
         public BaseRepository(DbSet<T> dbSet) => _dbSet = dbSet;
 
-        //CRUD opertaions
 
+        //CRUD opertaions
         public void Add(T entity) => _dbSet.Add(entity);
 
         public void AddRange(IEnumerable<T> entities) => _dbSet.AddRange(entities);
 
-        public IEnumerable<T> GetAll(Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending)
+         //_db.ShoppingCarts.Include(u => u.Product).Include(u=>u.CoverType);
+        //includeProp - "Category,CoverType"
+        public IEnumerable<T> GetAll(string? includeProperties = null, Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending)
         {
             IQueryable<T> query = _dbSet;
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            
             if (orderBy != null)
                 if (orderByDirection == SD.Ascending)
                     query = query.OrderBy(orderBy);
@@ -32,19 +43,41 @@ namespace SADA.DataAccess.Repositories
 
         public void Remove(T entity) => _dbSet.Remove(entity);
 
-        public void RemoveRange(IEnumerable<T> entities) => _dbSet.RemoveRange(entities);
+        public  void RemoveRange(IEnumerable<T> entities) => _dbSet.RemoveRange(entities);
 
 
         //Search operations
         public T GetById(int id) => _dbSet.Find(id);
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> criteria) => _dbSet.FirstOrDefault(criteria);
+        public T GetFirstOrDefault(Expression<Func<T, bool>> criteria, string? includeProperties = null)
+        {
+            IQueryable<T> query = _dbSet.Where(criteria);
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria,
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
+            return query.FirstOrDefault();
+        }
+
+        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, string? includeProperties = null,
                                       Expression<Func<T, object>>? orderBy = null,
                                       string orderByDirection = SD.Ascending)
         {
             IQueryable<T> query = _dbSet.Where(criteria);
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
             if (orderBy != null)
                 if (orderByDirection == SD.Ascending)
                     query = query.OrderBy(orderBy);
@@ -54,6 +87,7 @@ namespace SADA.DataAccess.Repositories
             return query.ToList();
 
         }
+
 
         //Aggregating operations
         public int Count() => _dbSet.Count();

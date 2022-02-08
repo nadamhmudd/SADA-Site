@@ -6,40 +6,32 @@
 <div class="container p-3">
     <div class="row pt-4">
         <div class="col-6">
-            <h2 class="text-primary">Products List</h2>
+            <h2 class="text-primary">Product List</h2>
 		</div>
         <div class="col-6 text-end">
-            @*use tag helper instead of html tags*@
-            <a asp-action="Create" class="btn btn-outline-light">
-               <i class="bi bi-plus-circle"></i> &nbsp; Add New 
-            </a>
+            <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">
+               <i class="bi bi-plus-circle"></i> &nbsp; Create New Product
+			</a>
 		</div>
 	</div>
     <br /><br />
-
-<table class="table table-hover" style="width:100%">
+    
+    <table  id="tblData"  class="table cell-border  table-hover" style="width:100%">
     <thead>
         <tr class="table-info">
-            <th> Name </th>
+            <th>Cover Photo</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Original Price</th>
+            <th>Discount</th>
+            <th>Category</th>
             <th></th>
 		</tr>
 	</thead>
-    <tbody>
-            @foreach(var obj in Model)
-            {
-                <tr>
-                    <td width="50%">@obj.Name</td>
-                    <td width="50%">
-                        <div role="group" style="text-align:center">
-                            <a asp-action="Edit" asp-route-id="@obj.Id"
-                            class="btn btn-outline-light btn-sm"> <i class="bi bi-pencil-square"></i> Edit</a>
-                            <a asp-action="Delete" asp-route-id="@obj.Id"
-                            class="btn btn-outline-danger btn-sm" style="margin-left:10px"> <i class="bi bi-trash-fill"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            }
-    </tbody>
-</table>
+    </table>
 </div>
+
+@section Scripts{
+    <script src="~/js/DataTables/ProductsDataTable.js"></script>
+}
 

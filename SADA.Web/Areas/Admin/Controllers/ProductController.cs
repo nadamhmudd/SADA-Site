@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Core.Models;
 using SADA.Core.Interfaces;
+using SADA.Core.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SADA.Service;
 
 namespace SADA.Web.Areas.Admin.Controllers;
 
@@ -9,52 +11,90 @@ public class ProductController : Controller
 {
     // To achieve dependency injection
     private readonly IUnitOfWork _unitOfWork;
-    public ProductController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+    private readonly IWebHostEnvironment _hostEnviroment; //to access www root
 
-
-    public IActionResult Index() => View(_unitOfWork.Product.GetAll());
-
-    //GET
-    public IActionResult Create() => View();
-    //POST
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Create(Product obj)
+    public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
     {
-        if (ModelState.IsValid) //depends on constraints in the model
-        {
-            _unitOfWork.Product.Add(obj);
-            _unitOfWork.Save();
-            TempData["success"] = "Product created successfully";
-
-            return RedirectToAction("Index");
-        }
-        TempData["error"] = "Faild!!!";
-        return View(obj);
+        _unitOfWork = unitOfWork;
+        _hostEnviroment = hostEnvironment;
     }
 
+    public IActionResult Index() => View();
+
+    //Build one method can deals with create and update 
     //GET
-    public IActionResult Edit(int? id)
+    public IActionResult Upsert(int? id)
     {
+        //Initialize Model
+        ProductVM productVM = new()
+        {
+            Product = new(),
+            CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
+            {
+                Text  = i.Name,
+                Value = i.Id.ToString(),
+            }),
+        };
+
         if (id is null || id == 0)
-            return NotFound();
+        {
+            //Create 
+            return View(productVM);
+        }
+        else
+        {
+            //Update
+            //Retrieve product from Db
+            productVM.Product = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id);
+            if (productVM.Product is null)
+                return NotFound();
 
-        var productFromDb = _unitOfWork.Product.GetById((int)id);
-        if (productFromDb is null) 
-            return NotFound();
-
-        return View(productFromDb);
+            return View(productVM);
+        }
     }
     //POST
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(Product obj)
+    public IActionResult Upsert(ProductVM obj, IFormFile? file)
     {
         if (ModelState.IsValid) //depends on constraints in the model
         {
-            _unitOfWork.Product.Update(obj);
+            //upload files in www root
+            string wwwRootPath = _hostEnviroment.WebRootPath; //access web root path
+            if(file != null)
+            {
+                //delete old image if not equal null
+                if(obj.Product.CoverUrl != null) //update image
+                {
+                    DeleteImage(obj.Product.CoverUrl);
+                }
+                //preparing saved file in our projects 
+                //generate unique file name
+                var fileName  = Guid.NewGuid().ToString();
+                //generate location to upload file here
+                var uploads   = Path.Combine(wwwRootPath, @"images\products");
+                //keep extension of file
+                var extension = Path.GetExtension(file.FileName);
+                //copy inputfile and save it
+                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+                //save in Db
+                obj.Product.CoverUrl = @$"\images\products\{fileName + extension}";
+            }
+        
+            if (obj.Product.Id == 0)//store method 
+            {
+                _unitOfWork.Product.Add(obj.Product);
+                TempData["success"] = "Product Created Successfully";
+            }
+            else //update method 
+            {
+                _unitOfWork.Product.Update(obj.Product);
+                TempData["success"] = "Product Updated Successfully";
+            }
             _unitOfWork.Save();
-            TempData["success"] = "Product updated successfully";
 
             return RedirectToAction("Index");
         }
@@ -62,28 +102,40 @@ public class ProductController : Controller
         return View(obj);
     }
 
-    //GET
+    private void DeleteImage(string image)
+    {
+        var oldImagePath = Path.Combine(_hostEnviroment.WebRootPath, image.TrimStart('\\'));
+        if (System.IO.File.Exists(oldImagePath))
+        {
+            System.IO.File.Delete(oldImagePath); //old image deleted
+        }
+    }
+
+    #region API CALLS
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var productsList = _unitOfWork.Product.GetAll("Category", o => o.Id, SD.Descending);
+        return Json(new { data = productsList });
+    }
+
+    [HttpDelete]
     public IActionResult Delete(int? id)
     {
-        if (id is null || id == 0)
-            return NotFound();
+        var obj = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id);
+        if(obj == null)
+        {
+            return Json(new { success = false, message = "Error while deleting!" });
+        }
 
-        var productFromDb = _unitOfWork.Product.GetById((int)id);
-        if (productFromDb is null)
-            return NotFound();
+        if (obj.CoverUrl != null) //delete image
+        {
+            DeleteImage(obj.CoverUrl);
+        }
 
-        return View(productFromDb);
-    }
-    //POST
-    [HttpPost/*,ActionName("Delete")*/]
-    [ValidateAntiForgeryToken]
-    public IActionResult Delete(Product obj)
-    {
         _unitOfWork.Product.Remove(obj);
         _unitOfWork.Save();
-        TempData["success"] = "Product deleted successfully";
-
-        return RedirectToAction("Index");
+        return Json(new { success = true, message = "Delete Successful" });
     }
+    #endregion
 }
-
