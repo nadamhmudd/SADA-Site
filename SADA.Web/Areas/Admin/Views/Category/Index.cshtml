@@ -20,32 +20,14 @@
     <table  id="tblData"  class="table cell-border table-bordered table-striped" style="width:100%">
     <thead>
         <tr class="table-info">
-            <th>
-                Category Name
-			</th>
-            <th>
-                Display Order
-			</th>
+            <th>Category Name</th>
+            <th>Display Order</th>
             <th></th>
 		</tr>
 	</thead>
-    <tbody>
-            @foreach(var obj in Model)
-            {
-                <tr>
-                    <td width="50%">@obj.Name</td>
-                    <td width="20%">@obj.DisplayOrder</td>
-                    <td width="50%">
-                        <div role="group" style="text-align:center">
-                            <a asp-action="Edit" asp-route-id="@obj.Id"
-                            class="btn btn-outline-light btn-sm"> <i class="bi bi-pencil-square"></i> Edit</a>
-                            <a asp-action="Delete" asp-route-id="@obj.Id"
-                            class="btn btn-outline-danger btn-sm" style="margin-left:10px"> <i class="bi bi-trash-fill"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            }
-    </tbody>
 </table>
 </div>
 
+@section Scripts{
+    <script src="~/js/DataTables/CategoryDataTable.js"></script>
+}

@@ -10,6 +10,7 @@ function LoadDataTable() {
         "ajax": {
             "url": "/Admin/Product/GetAll"
         },
+        "order": [],
         "columns": [
             {
                 "data": "coverUrl",

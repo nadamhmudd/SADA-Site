@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SADA.Core.Models;
 using SADA.Core.Interfaces;
+using SADA.Service;
 
 namespace SADA.Web.Areas.Admin.Controllers;
 
@@ -12,7 +13,7 @@ public class CategoryController : Controller
     public CategoryController(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
 
-    public IActionResult Index() => View(_unitOfWork.Category.GetAll(null, o=>o.DisplayOrder));
+    public IActionResult Index() => View();
 
     //GET
     public IActionResult Create() => View();
@@ -68,28 +69,50 @@ public class CategoryController : Controller
         return View(obj);
     }
 
-    //GET
+    #region API CALLS
+    [HttpGet]
+    public IActionResult GetAll()
+    {
+        var list = _unitOfWork.Category.GetAll(null, o => o.DisplayOrder);
+        return Json(new { data = list });
+    }
+
+    [HttpDelete]
     public IActionResult Delete(int? id)
     {
-        if (id is null || id == 0)
-            return NotFound();
+        var obj = _unitOfWork.Category.GetFirstOrDefault(p => p.Id == id);
+        if (obj == null)
+        {
+            return Json(new { success = false, message = "Error while deleting!" });
+        }
 
-        var categoryFromDb = _unitOfWork.Category.GetById((int)id);
-        if (categoryFromDb is null)
-            return NotFound();
-
-        return View(categoryFromDb);
-    }
-    //POST
-    [HttpPost/*,ActionName("Delete")*/]
-    [ValidateAntiForgeryToken]
-    public IActionResult Delete(Category obj)
-    {
         _unitOfWork.Category.Remove(obj);
         _unitOfWork.Save();
-        TempData["success"] = "Category deleted successfully";
-
-        return RedirectToAction("Index");
+        return Json(new { success = true, message = "Delete Successful" });
     }
+    #endregion
+    ////GET
+    //public IActionResult Delete(int? id)
+    //{
+    //    if (id is null || id == 0)
+    //        return NotFound();
+
+    //    var categoryFromDb = _unitOfWork.Category.GetById((int)id);
+    //    if (categoryFromDb is null)
+    //        return NotFound();
+
+    //    return View(categoryFromDb);
+    //}
+    ////POST
+    //[HttpPost/*,ActionName("Delete")*/]
+    //[ValidateAntiForgeryToken]
+    //public IActionResult Delete(Category obj)
+    //{
+    //    _unitOfWork.Category.Remove(obj);
+    //    _unitOfWork.Save();
+    //    TempData["success"] = "Category deleted successfully";
+
+    //    return RedirectToAction("Index");
+    //}
 }
 
