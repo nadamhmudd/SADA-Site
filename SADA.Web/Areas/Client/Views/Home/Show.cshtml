@@ -1,0 +1,56 @@
+﻿@model ShoppingCart
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
+<form method="post">
+        <div class="card bg-light container pt-4">
+            <div class="card-header bg-dark text-light row ">
+                <div class="col-12 col-md-6">
+                    <h1 class="text-white-50">@Model.Product.Name</h1>
+                </div>
+            </div>
+            <div class="card-body row container">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-8 col-lg-8">
+
+                            <div class="row pl-2">
+                                <h5 class="text-muted pb-2">Price: <strike>@Model.Product.Price.ToString("c")</strike></h5>
+                            </div>
+                    
+                            <div class="row pl-2">
+                                <p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
+                            </div>
+                            <div class="row pl-2">
+                                <div class="col-2 text-primary"><h4>Count</h4></div>
+                                <div class="col-10">
+                                    <input asp-for="Count" class="form-control"/>
+                                    <span asp-validation-for="Count"  class="text-danger"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-3 offset-lg-1 text-center">
+                            <img src="@Model.Product.CoverUrl" width="100%" class="rounded" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-1">
+                        <button type="submit" value="Add to Cart" class="btn btn-outline-dark form-control" style="height:50px;">
+                            ADD TO BASKET
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+
+@section Scripts{
+	@{ //apply validation without reload server
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
+
