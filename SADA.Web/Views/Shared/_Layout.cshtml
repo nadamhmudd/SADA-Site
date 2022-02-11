@@ -18,8 +18,10 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarColor02">
-                    <partial name="Partial/_MenuBar">
+                    <partial name="Partial/_MenuBar" />
                 </div>
+
+                <partial name="_LoginPartial" />
 
                 @*<form class="d-flex">
                     <input class="form-control me-sm-2" type="text" placeholder="Search">
@@ -31,7 +33,7 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            <partial name="Partial/_TempData">
+            <partial name="_TempData" />
             @RenderBody()
         </main>
     </div>
