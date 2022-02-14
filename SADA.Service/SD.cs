@@ -9,7 +9,9 @@ namespace SADA.Service
     //Static - Constants Details
     public class SD
     {
-        public const string Ascending = "ASC";
-        public const string Descending = "DESC";
+        public const string Ascending       = "ASC";
+        public const string Descending      = "DESC";
+        public const string Role_Client     = "Client";
+        public const string Role_Admin      = "Admin";
     }
 }

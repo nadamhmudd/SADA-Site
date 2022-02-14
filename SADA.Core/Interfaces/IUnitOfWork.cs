@@ -8,6 +8,9 @@ namespace SADA.Core.Interfaces
         //Register App Repositories
         public IBaseRepository<Category> Category { get; }
         public IProductRepository Product { get; }
+        public IBaseRepository<ShoppingCart> ShoppingCart { get; }
+        public IBaseRepository<ApplicationUser> ApplicationUser { get; }
+
 
         //Global Methods
         public void Save();
