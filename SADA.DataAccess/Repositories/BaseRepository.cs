@@ -18,10 +18,14 @@ namespace SADA.DataAccess.Repositories
 
          //_db.ShoppingCarts.Include(u => u.Product).Include(u=>u.CoverType);
         //includeProp - "Category,CoverType"
-        public IEnumerable<T> GetAll(string? includeProperties = null, Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending)
+        public IEnumerable<T> GetAll(string? includeProperties = null, Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending, Expression<Func<T, bool>>? criteria = null)
         {
             IQueryable<T> query = _dbSet;
 
+            if(criteria != null)
+            {
+                _dbSet.Where(criteria);
+            }
             if (includeProperties != null)
             {
                 foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

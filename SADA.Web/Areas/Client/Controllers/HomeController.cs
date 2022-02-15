@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SADA.Core.Interfaces;
 using SADA.Core.Models;
 using SADA.Service;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace SADA.Web.Areas.Client.Controllers;
 
@@ -26,16 +28,47 @@ public class HomeController : Controller
         return View(productsList);  
     }
 
-    public IActionResult Show(int? id)
+    [HttpGet]
+    public IActionResult Details(int productId)
     {
         ShoppingCart obj = new()
         {
             Count = 1,
-            Product = _unitOfWorks.Product.GetFirstOrDefault(o => o.Id==id, includeProperties: "Category")
+            ProductID = productId,
+            Product = _unitOfWorks.Product.GetFirstOrDefault(o => o.Id== productId, includeProperties: "Category")
         };
 
         return View(obj);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize] //only logged user can do it
+    public IActionResult Details(ShoppingCart obj)
+    {
+        //retrieve application user id
+        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        obj.ApplicationUserID = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value; //get user id
+
+        ShoppingCart cartFromDb = _unitOfWorks.ShoppingCart.GetFirstOrDefault(criteria: 
+               u => u.ApplicationUserID == obj.ApplicationUserID && u.ProductID == obj.ProductID
+            );
+
+        if(cartFromDb is null)
+        {
+            //added first time
+            _unitOfWorks.ShoppingCart.Add(obj);
+        }
+        else
+        {
+            //update count
+            _unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
+        }
+        _unitOfWorks.Save();
+
+        return RedirectToAction(nameof(Index));
+    }
+
 
     public IActionResult Privacy()
     {

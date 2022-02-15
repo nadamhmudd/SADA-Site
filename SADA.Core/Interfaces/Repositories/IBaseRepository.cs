@@ -11,7 +11,7 @@ namespace SADA.Core.Interfaces.Repositories
         //CRUD Operations
         public void Add(T entity);
         public void AddRange(IEnumerable<T> entities);
-        public IEnumerable<T> GetAll(string? includeProperties = null, Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending);
+        public IEnumerable<T> GetAll(string? includeProperties = null, Expression<Func<T, object>>? orderBy = null, string orderByDirection = SD.Ascending, Expression<Func<T, bool>>? criteria=null);
         public void Update(T entity);
         public void Remove(T entity);
         public void RemoveRange(IEnumerable<T> entities);

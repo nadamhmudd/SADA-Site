@@ -18,14 +18,14 @@ namespace SADA.DataAccess
             //Initialize App Repositories
             Category = new BaseRepository<Category>(_db.Set<Category>());
             Product  = new ProductRepository(_db.Set<Product>());
-            ShoppingCart = new BaseRepository<ShoppingCart>(_db.Set<ShoppingCart>());
+            ShoppingCart = new ShoppingCartRepository(_db.Set<ShoppingCart>());
             ApplicationUser = new BaseRepository<ApplicationUser>(_db.Set<ApplicationUser>());
 
         }
 
         public IBaseRepository<Category> Category { get; private set; }
         public IProductRepository Product { get; private set; }
-        public IBaseRepository<ShoppingCart> ShoppingCart { get; private set; }
+        public IShoppingCartRepository ShoppingCart { get; private set; }
         public IBaseRepository<ApplicationUser> ApplicationUser { get; private set; }
 
 
