@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Orders Management";
+    var status = Context.Request.Query["status"];
+    var all = (status == "all" || String.IsNullOrEmpty(status)? "active text-white" : "");
+    var active = "";
+}
+<div class="p-3">   
+    <div class="d-flex justify-content-between pt-4">
+        <div class="p-2">
+            <h2 class="text-primary">Order List</h2>
+		</div>
+        <div class="p-2">
+            <ul class="nav nav-tabs">
+                @foreach(var obj in SADA.Service.SD.Status)
+                {
+                    active="";
+                    if(status == obj)
+                    {
+                        active = "active text-white";
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link @active" asp-route-status="@obj">@obj</a>
+                    </li>
+                }
+                <li class="nav-item">
+                    <a class="nav-link @all" asp-route-status="all">All</a>
+                </li>
+            </ul>
+		</div>
+	</div>
+    <br /><br />
+    
+    <table  id="tblData"  class="table cell-border  table-hover" style="width:100%">
+    <thead>
+        <tr class="table-info">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>City</th>
+            <th>TOTAl</th>
+            <th>STATUS</th>
+            <th></th>
+		</tr>
+	</thead>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="~/js/DataTables/OrderManagementDataTable.js"></script>
+}
+
+

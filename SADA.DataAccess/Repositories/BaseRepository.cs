@@ -24,7 +24,7 @@ namespace SADA.DataAccess.Repositories
 
             if(criteria != null)
             {
-                _dbSet.Where(criteria);
+                query = query.Where(criteria);
             }
             if (includeProperties != null)
             {
