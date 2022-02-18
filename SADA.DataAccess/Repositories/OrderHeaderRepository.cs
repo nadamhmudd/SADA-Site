@@ -22,5 +22,12 @@ namespace SADA.DataAccess.Repositories
                 }
             }
         }
+        public void UpdateStripePaymentID(int id, string sessionId, string paymentIntentId)
+        {
+            var obj = _dbSet.Find(id);
+            obj.PaymentDate = DateTime.Now;
+            obj.SessionId = sessionId;
+            obj.PaymentIntentId = paymentIntentId;
+        }
     }
 }

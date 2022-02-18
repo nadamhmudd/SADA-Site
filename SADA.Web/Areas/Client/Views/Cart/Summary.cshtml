@@ -1,6 +1,8 @@
 ﻿@model ShoppingCartVM
+@using Microsoft.Extensions.Options
+@inject IOptions<SADA.Service.StripeSetting> Stripe
 @{
-    ViewData["Title"] = "Order Confirmation";
+    ViewData["Title"] = "Order Summary";
 }
 <form method="post">
 	<br />
