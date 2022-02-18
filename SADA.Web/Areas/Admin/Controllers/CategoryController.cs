@@ -2,10 +2,12 @@
 using SADA.Core.Models;
 using SADA.Core.Interfaces;
 using SADA.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SADA.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = SD.Role_Admin)]
 public class CategoryController : Controller
 {
     // To achieve dependency injection

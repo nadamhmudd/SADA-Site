@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SADA.Core.Interfaces;
 using SADA.Core.Models;
 using SADA.Service;
@@ -6,6 +7,7 @@ using SADA.Service;
 namespace SADA.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class OrderManagementController : Controller
     {
         private readonly IUnitOfWork _unitOfWorks;

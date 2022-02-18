@@ -3,10 +3,12 @@ using SADA.Core.Interfaces;
 using SADA.Core.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SADA.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SADA.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize(Roles = SD.Role_Admin)]
 public class ProductController : Controller
 {
     // To achieve dependency injection
