@@ -9,22 +9,14 @@ namespace SADA.Service
     //Static - Constants Details
     public static class SD
     {
-        public const string Ascending = "ASC";
-        public const string Descending = "DESC";
+        public const string Ascending   = "ASC";
+        public const string Descending  = "DESC";
         public const string Role_Client = "Client";
-        public const string Role_Admin = "Admin";
+        public const string Role_Admin  = "Admin";
 
-        public const string StatusPending = "Pending";
-        public const string StatusApproved = "Approved";
-        public const string StatusInProcess = "Processing";
-        public const string StatusShipped = "Shipped";
-        public const string StatusDelivered = "Delivered";
-        public const string StatusCancelled = "Cancelled";
-        public const string StatusRefunded = "Refunded";
-
-        public static readonly List<string> Status = new List<string>()
+        public enum Status
         {
-            "Pending", "Approved", "Processing", "Shipped", "Delivered", "Cancelled", "Refunded"
+            Pending, Approved, Processing, Shipped, Delivered, Cancelled, Refunded
         };
 
         public enum PaymentOptions { Cash = 0, Visa = 1 }

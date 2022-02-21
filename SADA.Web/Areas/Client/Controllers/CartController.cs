@@ -89,9 +89,9 @@ namespace SADA.Web.Areas.Client.Controllers
         {
             //OrderHeader
             ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-            ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+            ShoppingCartVM.OrderHeader.OrderStatus = SD.Status.Pending.ToString();
             //ShoppingCartVM.OrderHeader.PaymentOption = SD.PaymentOptions.Cash;
-            ShoppingCartVM.OrderHeader.PaymentStatus = SD.StatusPending;
+            ShoppingCartVM.OrderHeader.PaymentStatus = SD.Status.Pending.ToString();
             _unitOfWorks.OrderHeader.Add(ShoppingCartVM.OrderHeader);
             _unitOfWorks.Save();
 
@@ -163,7 +163,7 @@ namespace SADA.Web.Areas.Client.Controllers
             //check the stripe status
             if (session.PaymentStatus.ToLower() == "paid")
             {
-                _unitOfWorks.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.StatusApproved);
+                _unitOfWorks.OrderHeader.UpdateStatus(id, SD.Status.Approved.ToString(), SD.Status.Approved.ToString());
                 _unitOfWorks.Save();
             }
 

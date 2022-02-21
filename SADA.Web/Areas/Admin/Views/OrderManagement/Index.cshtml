@@ -1,4 +1,5 @@
-﻿@{
+﻿@using SADA.Service
+@{
     ViewData["Title"] = "Orders Management";
     var status = Context.Request.Query["status"];
     var all = (status == "all" || String.IsNullOrEmpty(status)? "active text-white" : "");
@@ -11,7 +12,7 @@
 		</div>
         <div class="p-2">
             <ul class="nav nav-tabs">
-                @foreach(var obj in SADA.Service.SD.Status)
+                @foreach(var obj in (SD.Status[])Enum.GetValues(typeof(SD.Status)))
                 {
                     active="";
                     if(status == obj)

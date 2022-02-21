@@ -29,7 +29,7 @@ namespace SADA.Core.Models
             set => PaymentOptionsId = (int)value;
         }
         public string? PaymentStatus { get; set; }
-        public DateTime? PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
 
         public DateTime? ShippingDate { get; set; }

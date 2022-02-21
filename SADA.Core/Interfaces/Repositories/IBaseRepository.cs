@@ -18,7 +18,7 @@ namespace SADA.Core.Interfaces.Repositories
 
         //Search Operations
         public T GetById(int id);
-        public T GetFirstOrDefault(Expression<Func<T, bool>> criteria, string? includeProperties = null);
+        public T GetFirstOrDefault(Expression<Func<T, bool>> criteria, string? includeProperties = null, bool tracked = false);
         public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, string? includeProperties = null,
                                       Expression<Func<T, object>>? orderBy = null,
                                       string orderByDirection = SD.Ascending);

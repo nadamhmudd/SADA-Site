@@ -23,7 +23,7 @@ function LoadDataTable(status) {
                 "render": function (data) {
                     return `
                         <div role="group" style="text-align:center">
-                            <a href="/Admin/OrderManagement/Details?id=${data}"
+                            <a href="/Admin/OrderManagement/Details?orderId=${data}"
                             class="btn btn-outline-light btn-sm">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
