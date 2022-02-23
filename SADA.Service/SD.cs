@@ -11,14 +11,13 @@ namespace SADA.Service
     {
         public const string Ascending   = "ASC";
         public const string Descending  = "DESC";
-        public const string Role_Client = "Client";
-        public const string Role_Admin  = "Admin";
 
+        public const string Role_Client = "Client";
+        public const string Role_Admin = "Admin";
         public enum Status
         {
             Pending, Approved, Processing, Shipped, Delivered, Cancelled, Refunded
         };
-
         public enum PaymentOptions { Cash = 0, Visa = 1 }
 
     }

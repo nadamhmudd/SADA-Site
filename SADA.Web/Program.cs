@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SADA.Service;
 using Stripe;
+using SADA.Service.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,21 +13,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
-//setup program to use DbContext
+//setup program to use DbContext and another sections in appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stripe"));
+
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-//email verification
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
-//register unitOfWork for our program
+//register unitOfWork for our program 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 builder.Services.ConfigureApplicationCookie( options =>
 { 
@@ -49,6 +50,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+SeedDatabase();
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 app.UseAuthentication(); //always Authentication come first
@@ -60,3 +63,13 @@ app.MapControllerRoute(
     pattern : "{area=Client}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

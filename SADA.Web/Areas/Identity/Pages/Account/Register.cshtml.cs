@@ -33,16 +33,13 @@ namespace SADA.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        //added
-        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,7 +47,6 @@ namespace SADA.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -115,31 +111,14 @@ namespace SADA.Web.Areas.Identity.Pages.Account
             public string? State { get; set; }
             public string? PhoneNumber { get; set; }
             public string? Role { get; set; }
-
-            [ValidateNever]
-            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            //added
-            if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Client)).GetAwaiter().GetResult();
-
-            }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            Input = new InputModel()
-            {
-                RoleList = _roleManager.Roles.Select(r => r.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                }),
-            };
+            Input = new InputModel();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -156,7 +135,6 @@ namespace SADA.Web.Areas.Identity.Pages.Account
                 user.PhoneNumber = Input.PhoneNumber;
                 user.City = Input.City;
                 user.StreetAddress = Input.StreetAddress;
-                user.State = Input.State;
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
