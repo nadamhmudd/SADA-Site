@@ -32,11 +32,20 @@ builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<ISmsSender, SmsSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
+
 builder.Services.ConfigureApplicationCookie( options =>
 { 
     options.LoginPath = $"/Identity/Account/Login";
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+//enable session and add it to container
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
@@ -59,6 +68,9 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings:Se
 
 app.UseAuthentication(); //always Authentication come first
 app.UseAuthorization();
+
+//add session to pipeline request
+app.UseSession();
 
 app.MapRazorPages(); //added
 app.MapControllerRoute(

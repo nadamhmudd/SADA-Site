@@ -178,6 +178,9 @@ namespace SADA.Web.Areas.Client.Controllers
             _unitOfWorks.ShoppingCart.RemoveRange(ListCart);
             _unitOfWorks.Save();
 
+            //clear session value for cart
+            HttpContext.Session.Remove(SD.SessionCart);
+
             //send sms message
             await _SmsSender.SendSMSAsync(orderHeader.PhoneNumber, $"Order Placed on SADA Suits. Your OrderID:{orderHeader.Id}");
 
@@ -202,6 +205,7 @@ namespace SADA.Web.Areas.Client.Controllers
             else //delete
             {
                 _unitOfWorks.ShoppingCart.Remove(cartFromDb);
+                HttpContext.Session.DecrementValue(SD.SessionCart,1);
             }
             _unitOfWorks.Save();
 
@@ -212,6 +216,8 @@ namespace SADA.Web.Areas.Client.Controllers
             var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
             _unitOfWorks.ShoppingCart.Remove(cartFromDb);
             _unitOfWorks.Save();
+
+            HttpContext.Session.DecrementValue(SD.SessionCart, 1);
 
             return RedirectToAction(nameof(Index));
         }

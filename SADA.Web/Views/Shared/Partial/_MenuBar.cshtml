@@ -19,7 +19,7 @@
     </li>
     <li class="nav-item">
         <a class=nav-link asp-area="Client" asp-controller="Cart" asp-action="Index">
-            <i class="bi bi-cart"></i>
+           @await Component.InvokeAsync("ShoppingCart")
         </a>
     </li>
 </ul>

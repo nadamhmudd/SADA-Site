@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SADA.Core.Interfaces;
 using SADA.Core.Models;
@@ -58,6 +59,8 @@ public class HomeController : Controller
         {
             //added first time
             _unitOfWorks.ShoppingCart.Add(obj);
+            //update session value for cart counts
+            HttpContext.Session.IncrementValue(SD.SessionCart,1);
         }
         else
         {

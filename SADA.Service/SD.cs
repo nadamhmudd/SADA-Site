@@ -14,6 +14,9 @@ namespace SADA.Service
 
         public const string Role_Client = "Client";
         public const string Role_Admin = "Admin";
+
+        public const string SessionCart = "SessionShoppingCart";
+
         public enum Status
         {
             Pending, Approved, Processing, Shipped, Delivered, Cancelled, Refunded
