@@ -4,6 +4,7 @@ using SADA.Core.Interfaces;
 using SADA.Core.Models;
 using SADA.Core.ViewModels;
 using SADA.Service;
+using SADA.Service.Interfaces;
 using Stripe.Checkout;
 using System.Security.Claims;
 
@@ -14,10 +15,12 @@ namespace SADA.Web.Areas.Client.Controllers
     public class CartController : Controller
     {
         private readonly IUnitOfWork _unitOfWorks;
+        private readonly ISmsSender  _SmsSender;
 
-        public CartController(IUnitOfWork unitOfWork)
+        public CartController(IUnitOfWork unitOfWork, ISmsSender smsSender)
         {
             _unitOfWorks = unitOfWork;
+            _SmsSender   = smsSender;
         }
 
         [BindProperty] //for post method
@@ -155,7 +158,7 @@ namespace SADA.Web.Areas.Client.Controllers
             return new StatusCodeResult(303);
         }
 
-        public IActionResult OrderConfirmation(int id)
+        public async Task<IActionResult> OrderConfirmationAsync(int id)
         {
             OrderHeader orderHeader = _unitOfWorks.OrderHeader.GetById(id);
             var service = new SessionService();
@@ -174,6 +177,9 @@ namespace SADA.Web.Areas.Client.Controllers
                 ).ToList();
             _unitOfWorks.ShoppingCart.RemoveRange(ListCart);
             _unitOfWorks.Save();
+
+            //send sms message
+            await _SmsSender.SendSMSAsync(orderHeader.PhoneNumber, $"Order Placed on SADA Suits. Your OrderID:{orderHeader.Id}");
 
             return View(id);
         }

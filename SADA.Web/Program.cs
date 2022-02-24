@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using SADA.Service;
 using Stripe;
 using SADA.Service.Settings;
+using SADA.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("MailSettings"));
-builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stripe"));
+builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("StripeSettings"));
+builder.Services.Configure<TwilioSetting>(builder.Configuration.GetSection("TwilioSettings"));
 
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -27,6 +29,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProvide
 //register unitOfWork for our program 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddSingleton<ISmsSender, SmsSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 builder.Services.ConfigureApplicationCookie( options =>
@@ -52,7 +55,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 SeedDatabase();
-StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 
 app.UseAuthentication(); //always Authentication come first
 app.UseAuthorization();
