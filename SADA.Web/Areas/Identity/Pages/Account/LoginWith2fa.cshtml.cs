@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SADA.Service;
+using SADA.Core.Interfaces;
 
 namespace SADA.Web.Areas.Identity.Pages.Account
 {
@@ -21,15 +23,18 @@ namespace SADA.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
         public LoginWith2faModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<LoginWith2faModel> logger)
+            ILogger<LoginWith2faModel> logger,
+            IUnitOfWork unitOfWork)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -115,6 +120,11 @@ namespace SADA.Web.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
+
+                //create session for logged user
+                HttpContext.Session.SetObject(SD.SessionLoggedUser,
+                    _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == user.Id));
+                
                 return LocalRedirect(returnUrl);
             }
             else if (result.IsLockedOut)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SADA.Core.Interfaces;
+using SADA.Core.Models;
 using SADA.Service;
 using System.Security.Claims;
 
@@ -15,15 +16,14 @@ namespace SADA.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             //get logged user
-            var claimIdentity = (ClaimsIdentity)User.Identity;
-            var user = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var user = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
 
             if(user != null)
             {
                 if(HttpContext.Session.GetInt32(SD.SessionCart) == null)
                 {
                     HttpContext.Session.SetInt32(SD.SessionCart,
-                        _unitOfWork.ShoppingCart.GetAll(criteria: c => c.ApplicationUserID == user.Value).ToList().Count);
+                        _unitOfWork.ShoppingCart.GetAll(criteria: c => c.ApplicationUserID == user.Id).ToList().Count);
                 }
                 return View(HttpContext.Session.GetInt32(SD.SessionCart));
             }

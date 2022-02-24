@@ -27,6 +27,10 @@ namespace SADA.Web.Areas.Identity.Pages.Account
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+
+            //clear session 
+            HttpContext.Session.Clear();
+
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

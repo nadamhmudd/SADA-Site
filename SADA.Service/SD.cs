@@ -13,9 +13,10 @@ namespace SADA.Service
         public const string Descending  = "DESC";
 
         public const string Role_Client = "Client";
-        public const string Role_Admin = "Admin";
+        public const string Role_Admin  = "Admin";
 
-        public const string SessionCart = "SessionShoppingCart";
+        public const string SessionCart       = "SessionShoppingCart";
+        public const string SessionLoggedUser = "SessionLoggedUser";
 
         public enum Status
         {
