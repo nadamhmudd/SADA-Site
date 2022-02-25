@@ -50,8 +50,7 @@ public class HomeController : Controller
         obj.ApplicationUserID = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
 
         ShoppingCart cartFromDb = _unitOfWorks.ShoppingCart.GetFirstOrDefault(criteria: 
-               u => u.ApplicationUserID == obj.ApplicationUserID && u.ProductID == obj.ProductID, tracked:true
-            );
+               u => u.ApplicationUserID == obj.ApplicationUserID && u.ProductID == obj.ProductID);
 
         if(cartFromDb is null)
         {
@@ -63,7 +62,8 @@ public class HomeController : Controller
         else
         {
             //update count
-            _unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
+            //_unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
+            cartFromDb.Count += obj.Count;
         }
         _unitOfWorks.Save();
 

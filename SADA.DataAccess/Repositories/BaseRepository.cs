@@ -55,7 +55,15 @@ namespace SADA.DataAccess.Repositories
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> criteria, string? includeProperties = null, bool tracked = true)
         {
-            IQueryable<T> query = _dbSet.AsNoTracking().Where(criteria);
+            IQueryable<T> query;
+            if (tracked)
+            {
+               query = _dbSet.Where(criteria);
+            }
+            else
+            {
+                query = _dbSet.AsNoTracking().Where(criteria);
+            }
 
             if (includeProperties != null)
             {
