@@ -6,7 +6,6 @@ using SADA.Core.ViewModels;
 using SADA.Service;
 using SADA.Service.Interfaces;
 using Stripe.Checkout;
-using System.Security.Claims;
 
 namespace SADA.Web.Areas.Client.Controllers
 {
@@ -16,11 +15,12 @@ namespace SADA.Web.Areas.Client.Controllers
     {
         private readonly IUnitOfWork _unitOfWorks;
         private readonly ISmsSender  _SmsSender;
-
-        public CartController(IUnitOfWork unitOfWork, ISmsSender smsSender)
+        private readonly ApplicationUser _loggedUser;
+        public CartController(IUnitOfWork unitOfWork, ISmsSender smsSender, IHttpContextAccessor HttpContextAccessor)
         {
             _unitOfWorks = unitOfWork;
             _SmsSender   = smsSender;
+            _loggedUser = HttpContextAccessor.HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
         }
 
         [BindProperty] //for post method
@@ -29,54 +29,21 @@ namespace SADA.Web.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            //find logged user to get his cart
-            var userId = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
-            //get cart
-            ShoppingCartVM = new()
-            {
-                ListCart = _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product",
-                criteria: c => c.ApplicationUserID == userId
-                ),
-                OrderHeader = new()
-            };
-            //calculate total
-            foreach( var item in ShoppingCartVM.ListCart)
-            {
-                ShoppingCartVM.OrderHeader.OrderTotal += (item.Product.Price * item.Count);
-            }
-
+            ShoppingCartVM = UploadCartFromDb();
             return View(ShoppingCartVM);
         }
 
         [HttpGet]
         public IActionResult Summary()
         {
-            var userId = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
-
-            //get cart
-            ShoppingCartVM = new()
-            {
-                ListCart = _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product",
-                criteria: c => c.ApplicationUserID == userId
-                ),
-                OrderHeader = new()
-                {
-                    //Initialise order header
-                    ApplicationUserId = userId,
-                    ApplicationUser = _unitOfWorks.ApplicationUser.GetFirstOrDefault(u => u.Id == userId),
-                }
-            };
-            ShoppingCartVM.OrderHeader.Name = ShoppingCartVM.OrderHeader.ApplicationUser.Name;
-            ShoppingCartVM.OrderHeader.PhoneNumber = ShoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
-            ShoppingCartVM.OrderHeader.StreetAddress = ShoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
-            ShoppingCartVM.OrderHeader.City = ShoppingCartVM.OrderHeader.ApplicationUser.City;
-
-            foreach (var item in ShoppingCartVM.ListCart)
-            {
-                ShoppingCartVM.OrderHeader.OrderTotal += (item.Product.Price * item.Count);
-            }
+            ShoppingCartVM = UploadCartFromDb();
+            //add application user data
+            ShoppingCartVM.OrderHeader.ApplicationUserId = _loggedUser.Id;
+            ShoppingCartVM.OrderHeader.ApplicationUser   = _loggedUser;
+            ShoppingCartVM.OrderHeader.Name              = _loggedUser.Name;
+            ShoppingCartVM.OrderHeader.PhoneNumber       = _loggedUser.PhoneNumber;
+            ShoppingCartVM.OrderHeader.StreetAddress     = _loggedUser.StreetAddress;
+            ShoppingCartVM.OrderHeader.City              = _loggedUser.City;
 
             return View(ShoppingCartVM);
         }
@@ -216,6 +183,27 @@ namespace SADA.Web.Areas.Client.Controllers
             HttpContext.Session.DecrementValue(SD.SessionCart, 1);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        //---------------------------------------------------------------------
+        private ShoppingCartVM UploadCartFromDb()
+        {
+            //get cart
+            ShoppingCartVM ShoppingCartVM = new()
+            {
+                ListCart = _unitOfWorks.ShoppingCart.GetAll(
+                includeProperties: "Product",
+                criteria: c => c.ApplicationUserID == _loggedUser.Id
+                ),
+                OrderHeader = new()
+            };
+            //calculate total
+            foreach (var item in ShoppingCartVM.ListCart)
+            {
+                ShoppingCartVM.OrderHeader.OrderTotal += (item.Product.Price * item.Count);
+            }
+
+            return ShoppingCartVM;
         }
     }
 }

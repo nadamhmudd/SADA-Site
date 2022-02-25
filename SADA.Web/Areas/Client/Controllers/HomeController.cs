@@ -5,6 +5,7 @@ using SADA.Core.Models;
 using SADA.Service;
 using System.Diagnostics;
 
+
 namespace SADA.Web.Areas.Client.Controllers;
 
 [Area("Client")]
@@ -62,8 +63,7 @@ public class HomeController : Controller
         else
         {
             //update count
-            //_unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
-            cartFromDb.Count += obj.Count;
+            _unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
         }
         _unitOfWorks.Save();
 
