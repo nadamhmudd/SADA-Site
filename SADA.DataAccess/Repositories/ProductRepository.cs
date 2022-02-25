@@ -13,13 +13,14 @@ namespace SADA.DataAccess.Repositories
         //override
         public void Update(Product entity)
         {
-            var objFromData = _dbSet.FirstOrDefault(u => u.Id == entity.Id);
-
-            if(objFromData != null)
+            if (entity.CoverUrl != null) //image updated
             {
-                if (entity.CoverUrl != null) //image updated
-                    _dbSet.Update(entity); 
-                else
+                _dbSet.Update(entity);
+            }
+            else
+            {
+                var objFromData = _dbSet.FirstOrDefault(u => u.Id == entity.Id);
+                if (objFromData != null)
                 {
                     objFromData.Name = entity.Name;
                     objFromData.Description = entity.Description;
