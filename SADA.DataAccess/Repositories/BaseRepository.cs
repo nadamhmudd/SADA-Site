@@ -53,7 +53,7 @@ namespace SADA.DataAccess.Repositories
         //Search operations
         public T GetById(int id) => _dbSet.Find(id);
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> criteria, string? includeProperties = null, bool tracked = false)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> criteria, string? includeProperties = null, bool tracked = true)
         {
             IQueryable<T> query = _dbSet.AsNoTracking().Where(criteria);
 

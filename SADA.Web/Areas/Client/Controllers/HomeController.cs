@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SADA.Core.Interfaces;
 using SADA.Core.Models;
 using SADA.Service;
 using System.Diagnostics;
-using System.Security.Claims;
 
 namespace SADA.Web.Areas.Client.Controllers;
 
@@ -48,11 +46,11 @@ public class HomeController : Controller
     public IActionResult Details(ShoppingCart obj)
     {
         //retrieve application user id
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        obj.ApplicationUserID = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value; //get user id
+        //get logged user
+        obj.ApplicationUserID = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
 
         ShoppingCart cartFromDb = _unitOfWorks.ShoppingCart.GetFirstOrDefault(criteria: 
-               u => u.ApplicationUserID == obj.ApplicationUserID && u.ProductID == obj.ProductID
+               u => u.ApplicationUserID == obj.ApplicationUserID && u.ProductID == obj.ProductID, tracked:true
             );
 
         if(cartFromDb is null)
@@ -71,7 +69,6 @@ public class HomeController : Controller
 
         return RedirectToAction(nameof(Index));
     }
-
 
     public IActionResult Privacy()
     {

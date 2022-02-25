@@ -20,17 +20,15 @@ namespace SADA.Web.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
-        private readonly IUnitOfWork _unitOfWork;
+
         public LoginWithRecoveryCodeModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<LoginWithRecoveryCodeModel> logger,
-            IUnitOfWork unitOfWork)
+            ILogger<LoginWithRecoveryCodeModel> logger)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
-            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -100,10 +98,6 @@ namespace SADA.Web.Areas.Identity.Pages.Account
             {
                 _logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
                
-                //create session for logged user
-                HttpContext.Session.SetObject(SD.SessionLoggedUser,
-                    _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == user.Id));
-
                 return LocalRedirect(returnUrl ?? Url.Content("~/"));
             }
             if (result.IsLockedOut)

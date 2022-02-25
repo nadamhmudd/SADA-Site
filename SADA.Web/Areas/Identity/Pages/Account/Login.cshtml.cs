@@ -23,15 +23,12 @@ namespace SADA.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IUnitOfWork _unitOfWork; 
 
         public LoginModel(SignInManager<IdentityUser> signInManager,
-                        ILogger<LoginModel> logger,
-                        IUnitOfWork unitOfWork)
+                        ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
-            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -121,10 +118,6 @@ namespace SADA.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-
-                    //create session for logged user
-                    HttpContext.Session.SetObject(SD.SessionLoggedUser,
-                        _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == Input.Email));
 
                     return LocalRedirect(returnUrl);
                 }

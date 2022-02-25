@@ -2,7 +2,6 @@
 using SADA.Core.Interfaces;
 using SADA.Core.Models;
 using SADA.Service;
-using System.Security.Claims;
 
 namespace SADA.Web.ViewComponents
 {

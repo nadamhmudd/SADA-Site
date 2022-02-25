@@ -13,7 +13,7 @@ namespace SADA.DataAccess.Repositories
         //override
         public void Update(Product entity)
         {
-            var objFromData = _dbSet.FirstOrDefault();
+            var objFromData = _dbSet.FirstOrDefault(u => u.Id == entity.Id);
 
             if(objFromData != null)
             {

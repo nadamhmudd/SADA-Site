@@ -39,7 +39,7 @@ namespace SADA.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateOrderDetails()
         {
-            var orderHeaderFromD =_unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == OrderManagementVM.OrderHeader.Id);
+            var orderHeaderFromD =_unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == OrderManagementVM.OrderHeader.Id, tracked:false);
             orderHeaderFromD.Name = OrderManagementVM.OrderHeader.Name;
             orderHeaderFromD.PhoneNumber = OrderManagementVM.OrderHeader.PhoneNumber;
             orderHeaderFromD.StreetAddress = OrderManagementVM.OrderHeader.StreetAddress;
@@ -70,7 +70,7 @@ namespace SADA.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ShipOrder()
         {
-            var orderHeaderFromD = _unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == OrderManagementVM.OrderHeader.Id);
+            var orderHeaderFromD = _unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == OrderManagementVM.OrderHeader.Id, tracked:false);
             orderHeaderFromD.Carrier = OrderManagementVM.OrderHeader.Carrier;
             orderHeaderFromD.ShippingDate = DateTime.Now;
             orderHeaderFromD.OrderStatus = SD.Status.Shipped.ToString();
@@ -95,7 +95,7 @@ namespace SADA.Web.Areas.Admin.Controllers
 
         public IActionResult CancelOrRefundOrder(SD.Status status = SD.Status.Cancelled)
         {
-            var orderHeader = _unitOfWorks.OrderHeader.GetFirstOrDefault(u => u.Id == OrderManagementVM.OrderHeader.Id);
+            var orderHeader = _unitOfWorks.OrderHeader.GetFirstOrDefault(u => u.Id == OrderManagementVM.OrderHeader.Id, tracked:false);
             if (orderHeader.PaymentStatus == SD.Status.Approved.ToString())
             {
                 var options = new RefundCreateOptions

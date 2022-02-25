@@ -26,12 +26,11 @@ namespace SADA.Web.Areas.Client.Controllers
         [BindProperty] //for post method
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            //find user to get his cart
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            //find logged user to get his cart
+            var userId = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
             //get cart
             ShoppingCartVM = new()
             {
@@ -41,7 +40,6 @@ namespace SADA.Web.Areas.Client.Controllers
                 ),
                 OrderHeader = new()
             };
-
             //calculate total
             foreach( var item in ShoppingCartVM.ListCart)
             {
@@ -54,9 +52,7 @@ namespace SADA.Web.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Summary()
         {
-            //find user to get his cart
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
 
             //get cart
             ShoppingCartVM = new()

@@ -10,15 +10,13 @@ namespace SADA.DataAccess.Repositories
         {
         }
 
-        public int IncrementCount(ShoppingCart shoppingCart, int count)
+        public void IncrementCount(ShoppingCart shoppingCart, int count)
         {
             shoppingCart.Count += count;
-            return shoppingCart.Count;
         }
-        public int DecrementCount(ShoppingCart shoppingCart, int count)
+        public void DecrementCount(ShoppingCart shoppingCart, int count)
         {
-            shoppingCart.Count -= count;
-            return shoppingCart.Count;
+                shoppingCart.Count -= count;
         }
     }
 }

@@ -34,23 +34,19 @@ namespace SADA.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            IUnitOfWork unitOfWork)
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _unitOfWork = unitOfWork;
-
             _emailSender = emailSender;
         }
 
@@ -175,10 +171,6 @@ namespace SADA.Web.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-
-                        //create session for logged user
-                        HttpContext.Session.SetObject(SD.SessionLoggedUser,
-                            _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Email == Input.Email));
 
                         return LocalRedirect(returnUrl);
                     }
