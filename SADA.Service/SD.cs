@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SADA.Service
+﻿namespace SADA.Service
 {
     //Static - Constants Details
     public static class SD

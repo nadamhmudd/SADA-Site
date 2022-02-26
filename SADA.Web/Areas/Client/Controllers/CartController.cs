@@ -13,19 +13,26 @@ namespace SADA.Web.Areas.Client.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        private readonly IUnitOfWork _unitOfWorks;
-        private readonly ISmsSender  _SmsSender;
-        private readonly ApplicationUser _loggedUser;
-        public CartController(IUnitOfWork unitOfWork, ISmsSender smsSender, IHttpContextAccessor HttpContextAccessor)
+        private readonly IUnitOfWork         _unitOfWorks;
+        private readonly ISmsSender          _SmsSender;
+        private readonly ApplicationUser     _loggedUser;
+        private readonly PaymentController   _paymentController;
+
+        public CartController(IUnitOfWork unitOfWork, 
+            ISmsSender smsSender,
+            IHttpContextAccessor HttpContextAccessor, 
+            IURLHelper urlHelper)
         {
-            _unitOfWorks = unitOfWork;
-            _SmsSender   = smsSender;
-            _loggedUser = HttpContextAccessor.HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
+            _unitOfWorks       = unitOfWork;
+            _SmsSender         = smsSender;
+            _loggedUser        = HttpContextAccessor.HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
+            _paymentController = new PaymentController(urlHelper);
         }
 
         [BindProperty] //for post method
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
+        //---------------------------------- Methods---------------------------------------------------
         [HttpGet]
         public IActionResult Index()
         {
@@ -59,13 +66,10 @@ namespace SADA.Web.Areas.Client.Controllers
             //ShoppingCartVM.OrderHeader.PaymentOption = SD.PaymentOptions.Cash;
             ShoppingCartVM.OrderHeader.PaymentStatus = SD.Status.Pending.ToString();
             _unitOfWorks.OrderHeader.Add(ShoppingCartVM.OrderHeader);
-            _unitOfWorks.Save();
+            _unitOfWorks.Save(); //to generate orderHeader id
 
             //OrderDetail
-            ShoppingCartVM.ListCart = _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product",
-                criteria: c => c.ApplicationUserID == ShoppingCartVM.OrderHeader.ApplicationUserId
-                );
+            ShoppingCartVM.ListCart = CollectOrderItems();
             foreach (var item in ShoppingCartVM.ListCart)
             {
                 OrderDetail orderDetail = new()
@@ -80,40 +84,7 @@ namespace SADA.Web.Areas.Client.Controllers
             }
 
             //stripe setting
-            var domain = "https://localhost:44344/";
-            var options = new SessionCreateOptions
-            {
-                PaymentMethodTypes = new List<string>{ 
-                    //(SD.PaymentOptions)SD.PaymentOptions.Visa.ToString()
-                    "card",    
-                },
-                LineItems = new List<SessionLineItemOptions>(),
-                Mode = "payment",
-                SuccessUrl = domain+$"client/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-                CancelUrl  = domain+"client/cart/index",
-            };
-
-            foreach (var item in ShoppingCartVM.ListCart)
-            {
-                var sessionLineItem = new SessionLineItemOptions
-                {
-                    PriceData = new SessionLineItemPriceDataOptions
-                    {
-                        UnitAmount = (long)item.Product.Price * 100,
-                        Currency = "egp",
-                        ProductData = new SessionLineItemPriceDataProductDataOptions
-                        {
-                            Name = item.Product.Name,
-                        },
-
-                    },
-                    Quantity = item.Count,
-                };
-                options.LineItems.Add(sessionLineItem);
-            }
-
-            var service = new SessionService();
-            Session session = service.Create(options);
+            Session session = CheckoutByStripe(ShoppingCartVM.ListCart);
             _unitOfWorks.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
             _unitOfWorks.Save();
 
@@ -149,7 +120,6 @@ namespace SADA.Web.Areas.Client.Controllers
 
             return View(id);
         }
-
         public IActionResult Plus(int cartId)
         {
             var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
@@ -185,16 +155,13 @@ namespace SADA.Web.Areas.Client.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //---------------------------------------------------------------------
+        //----------------------------------Helper Methods-------------------------------------------------
         private ShoppingCartVM UploadCartFromDb()
         {
             //get cart
             ShoppingCartVM ShoppingCartVM = new()
             {
-                ListCart = _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product",
-                criteria: c => c.ApplicationUserID == _loggedUser.Id
-                ),
+                ListCart = CollectOrderItems(),
                 OrderHeader = new()
             };
             //calculate total
@@ -204,6 +171,39 @@ namespace SADA.Web.Areas.Client.Controllers
             }
 
             return ShoppingCartVM;
+        }
+        private IEnumerable<ShoppingCart> CollectOrderItems()
+        {
+            return _unitOfWorks.ShoppingCart.GetAll(
+                includeProperties: "Product",
+                criteria: c => c.ApplicationUserID == _loggedUser.Id);
+        }
+        private Session CheckoutByStripe(IEnumerable<ShoppingCart> CartList)
+        {
+            var options = _paymentController.Stripe(
+                            successUrl: $"client/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                            cancelUrl: "client/cart/index");
+
+            foreach (var item in CartList)
+            {
+                var sessionLineItem = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)item.Product.Price * 100,
+                        Currency = "egp",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = item.Product.Name,
+                        },
+
+                    },
+                    Quantity = item.Count,
+                };
+                options.LineItems.Add(sessionLineItem);
+            }
+
+            return new SessionService().Create(options);
         }
     }
 }

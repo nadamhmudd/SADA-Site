@@ -31,6 +31,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddSingleton<ISmsSender, SmsSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddScoped<IURLHelper, URLHelper>();
 
 
 builder.Services.ConfigureApplicationCookie( options =>
