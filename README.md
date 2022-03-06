@@ -1,6 +1,7 @@
 ### In-Progress
 # SADA-Site 
 Online shopping system with both admin and user layouts. [click here](https://instagram.com/sada.suitss?utm_medium=copy_link)
+![Screenshot](ERD.jpg)
 
 # Features Provided
 #### building with Asp.net Core MVC (.Net 6) and Bootstrap v5
