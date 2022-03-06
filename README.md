@@ -14,7 +14,9 @@ Online shopping system with both admin and user layouts. [click here](https://in
 - Checkout
 
 # Entity Relationship Diagram (ERD)
-Application User extends ASP.NET Core Identity "its include [Application-Roles,UserRoles] tabels"
+- Application-User Tabel extends ASP.NET Core Identity "its include [Application-Roles,UserRoles] tabels".
+
+
 ![DB](ERD.jpg)
 
 # How to Install and Run the Project
