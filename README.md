@@ -17,6 +17,5 @@ Online shopping system with both admin and user layouts. [click here](https://in
 ![DB](ERD.jpg)
 
 # How to Install and Run the Project
-# Screenshots
 
 
