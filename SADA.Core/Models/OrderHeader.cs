@@ -21,11 +21,11 @@ namespace SADA.Core.Models
         public string? OrderStatus { get; set; }
 
         [Required]
-        public virtual int PaymentOptionsId { get; set; } = 0;
-        [EnumDataType(typeof(SD.PaymentOptions))]
-        public SD.PaymentOptions PaymentOption 
+        public virtual int PaymentOptionsId { get; set; }
+        [EnumDataType(typeof(SD.PaymentMethods))]
+        public SD.PaymentMethods PaymentOption 
         {
-            get => (SD.PaymentOptions)PaymentOptionsId;
+            get => (SD.PaymentMethods)PaymentOptionsId;
             set => PaymentOptionsId = (int)value;
         }
         public string? PaymentStatus { get; set; }

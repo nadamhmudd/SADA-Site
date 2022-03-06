@@ -16,7 +16,7 @@
         {
             Pending, Approved, Processing, Shipped, Delivered, Cancelled, Refunded
         };
-        public enum PaymentOptions { Cash = 0, Visa = 1 }
+        public enum PaymentMethods { Cash = 0, Card = 1 }
 
     }
 }

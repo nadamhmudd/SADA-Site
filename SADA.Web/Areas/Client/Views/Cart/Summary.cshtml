@@ -1,4 +1,5 @@
 ﻿@model ShoppingCartVM
+@using SADA.Service
 @using Microsoft.Extensions.Options
 @inject IOptions<SADA.Service.Settings.StripeSetting> Stripe
 @{
@@ -63,7 +64,23 @@
 									<input asp-for="OrderHeader.City" class="form-control" />
 								</div>
 							</div>
+							<br />
+
+							<fieldset class="form-group">
+							  <legend class="mt-4">
+								  <span class="text-info">Select A Payment Method:</span>
+							  </legend>
+							  @foreach(var obj in (SD.PaymentMethods[])Enum.GetValues(typeof(SD.PaymentMethods)))
+							  {
+								 <div class="form-check">
+									<label class="form-check-label">
+										<input asp-for="OrderHeader.PaymentOption" type="radio" class="form-check-input" value="@obj">@obj
+									</label>
+								</div>
+							  }
+							</fieldset>
 						</div>
+
 						<div class="col-12 col-lg-5 offset-lg-1">
 							<h4 class="d-flex justify-content-between align-items-center mb-3">
 								<span class="text-info">Order Summary:</span>

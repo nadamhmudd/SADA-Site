@@ -13,19 +13,19 @@ namespace SADA.Web.Areas.Client.Controllers
     [Authorize]
     public class CartController : Controller
     {
-        private readonly IUnitOfWork         _unitOfWorks;
-        private readonly ISmsSender          _SmsSender;
-        private readonly ApplicationUser     _loggedUser;
-        private readonly PaymentController   _paymentController;
+        private readonly IUnitOfWork _unitOfWorks;
+        private readonly ISmsSender _SmsSender;
+        private readonly ApplicationUser _loggedUser;
+        private readonly PaymentController _paymentController;
 
-        public CartController(IUnitOfWork unitOfWork, 
+        public CartController(IUnitOfWork unitOfWork,
             ISmsSender smsSender,
-            IHttpContextAccessor HttpContextAccessor, 
+            IHttpContextAccessor HttpContextAccessor,
             IURLHelper urlHelper)
         {
-            _unitOfWorks       = unitOfWork;
-            _SmsSender         = smsSender;
-            _loggedUser        = HttpContextAccessor.HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
+            _unitOfWorks = unitOfWork;
+            _SmsSender = smsSender;
+            _loggedUser = HttpContextAccessor.HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser);
             _paymentController = new PaymentController(urlHelper);
         }
 
@@ -46,11 +46,11 @@ namespace SADA.Web.Areas.Client.Controllers
             ShoppingCartVM = UploadCartFromDb();
             //add application user data
             ShoppingCartVM.OrderHeader.ApplicationUserId = _loggedUser.Id;
-            ShoppingCartVM.OrderHeader.ApplicationUser   = _loggedUser;
-            ShoppingCartVM.OrderHeader.Name              = _loggedUser.Name;
-            ShoppingCartVM.OrderHeader.PhoneNumber       = _loggedUser.PhoneNumber;
-            ShoppingCartVM.OrderHeader.StreetAddress     = _loggedUser.StreetAddress;
-            ShoppingCartVM.OrderHeader.City              = _loggedUser.City;
+            ShoppingCartVM.OrderHeader.ApplicationUser = _loggedUser;
+            ShoppingCartVM.OrderHeader.Name = _loggedUser.Name;
+            ShoppingCartVM.OrderHeader.PhoneNumber = _loggedUser.PhoneNumber;
+            ShoppingCartVM.OrderHeader.StreetAddress = _loggedUser.StreetAddress;
+            ShoppingCartVM.OrderHeader.City = _loggedUser.City;
 
             return View(ShoppingCartVM);
         }
@@ -63,7 +63,6 @@ namespace SADA.Web.Areas.Client.Controllers
             //OrderHeader
             ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
             ShoppingCartVM.OrderHeader.OrderStatus = SD.Status.Pending.ToString();
-            //ShoppingCartVM.OrderHeader.PaymentOption = SD.PaymentOptions.Cash;
             ShoppingCartVM.OrderHeader.PaymentStatus = SD.Status.Pending.ToString();
             _unitOfWorks.OrderHeader.Add(ShoppingCartVM.OrderHeader);
             _unitOfWorks.Save(); //to generate orderHeader id
@@ -83,26 +82,37 @@ namespace SADA.Web.Areas.Client.Controllers
                 _unitOfWorks.Save();
             }
 
-            //stripe setting
-            Session session = CheckoutByStripe(ShoppingCartVM.ListCart);
-            _unitOfWorks.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
-            _unitOfWorks.Save();
-
-            Response.Headers.Add("Location", session.Url);
+            if (ShoppingCartVM.OrderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Card)
+            {
+                //stripe setting
+                Session session = CheckoutByStripe(ShoppingCartVM.ListCart);
+                _unitOfWorks.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+                _unitOfWorks.Save();
+                
+                Response.Headers.Add("Location", session.Url);
+            }
+            else if (ShoppingCartVM.OrderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Cash)
+            {
+                OrderConfirmationAsync(ShoppingCartVM.OrderHeader.Id);
+            }
             return new StatusCodeResult(303);
         }
 
         public async Task<IActionResult> OrderConfirmationAsync(int id)
         {
             OrderHeader orderHeader = _unitOfWorks.OrderHeader.GetById(id);
-            var service = new SessionService();
-            Session session = service.Get(orderHeader.SessionId);
-            //check the stripe status
-            if (session.PaymentStatus.ToLower() == "paid")
+            if(orderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Card)
             {
-                _unitOfWorks.OrderHeader.UpdateStatus(id, SD.Status.Approved.ToString(), SD.Status.Approved.ToString());
-                _unitOfWorks.Save();
+                //check the stripe status
+                var service = new SessionService();
+                Session session = service.Get(orderHeader.SessionId);
+                if (session.PaymentStatus.ToLower() != "paid")
+                {
+                    return RedirectToAction("Summary"); 
+                }
             }
+            _unitOfWorks.OrderHeader.UpdateStatus(id, SD.Status.Approved.ToString(), SD.Status.Approved.ToString());
+            _unitOfWorks.Save();
 
             //remove shopping cart
             List<ShoppingCart> ListCart = _unitOfWorks.ShoppingCart.GetAll(
@@ -131,14 +141,14 @@ namespace SADA.Web.Areas.Client.Controllers
         public IActionResult Minus(int cartId)
         {
             var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            if(cartFromDb.Count > 1)
+            if (cartFromDb.Count > 1)
             {
                 _unitOfWorks.ShoppingCart.DecrementCount(cartFromDb, 1);
             }
             else //delete
             {
                 _unitOfWorks.ShoppingCart.Remove(cartFromDb);
-                HttpContext.Session.DecrementValue(SD.SessionCart,1);
+                HttpContext.Session.DecrementValue(SD.SessionCart, 1);
             }
             _unitOfWorks.Save();
 
