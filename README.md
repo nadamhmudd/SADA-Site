@@ -14,8 +14,7 @@ Online shopping system with both admin and user layouts. [click here](https://in
 - Checkout
 
 # Entity Relationship Diagram (ERD)
-- ApplicationUser extends ASP.NET Core Identity 
-  -- "its already include [ApplicationUser, ApplicationRoles, UserRoles] tabels".
+- ApplicationUser extends ASP.NET Core Identity "its already include [ApplicationUser, ApplicationRoles, UserRoles] tabels".
 
 
 ![DB](ERD.jpg)
