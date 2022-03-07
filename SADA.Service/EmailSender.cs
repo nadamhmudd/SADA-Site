@@ -5,7 +5,6 @@ using MimeKit;
 using SADA.Service.Settings;
 
 namespace SADA.Service;
-
 public class EmailSender : IEmailSender
 {
     private readonly MailSetting _mailSettings;

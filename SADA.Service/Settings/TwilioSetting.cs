@@ -1,9 +1,7 @@
-﻿namespace SADA.Service.Settings
+﻿namespace SADA.Service.Settings;
+public class TwilioSetting
 {
-    public class TwilioSetting
-    {
-        public string PhoneNumber { set; get; }
-        public string AccountSID { set; get; }
-        public string AuthToken { set; get; }
-    }
+    public string PhoneNumber { set; get; }
+    public string AccountSID { set; get; }
+    public string AuthToken { set; get; }
 }

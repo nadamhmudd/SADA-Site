@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace SADA.Core.Models;
-
 public class Category
 {
     [Key] //Primary Key

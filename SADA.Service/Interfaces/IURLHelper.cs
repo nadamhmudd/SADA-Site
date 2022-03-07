@@ -1,8 +1,6 @@
-﻿namespace SADA.Service.Interfaces
+﻿namespace SADA.Service.Interfaces;
+public interface IURLHelper
 {
-    public interface IURLHelper
-    {
-        string Url(string path);
+    string Url(string path);
 
-    }
 }

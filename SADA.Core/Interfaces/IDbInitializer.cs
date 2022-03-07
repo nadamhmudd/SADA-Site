@@ -1,7 +1,5 @@
-﻿namespace SADA.Core.Interfaces
+﻿namespace SADA.Core.Interfaces;
+public interface IDbInitializer
 {
-    public interface IDbInitializer
-    {
-        void Initialize();
-    }
+    void Initialize();
 }

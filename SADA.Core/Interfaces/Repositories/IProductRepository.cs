@@ -1,10 +1,7 @@
 ﻿using SADA.Core.Models;
 
-namespace SADA.Core.Interfaces.Repositories
+namespace SADA.Core.Interfaces.Repositories;
+public interface IProductRepository : IBaseRepository<Product>
 {
-    public interface IProductRepository : IBaseRepository<Product>
-    {
-        public void Update(Product entity);
-
-    }
+    public void Update(Product entity);
 }

@@ -70,14 +70,14 @@
 							  <legend class="mt-4">
 								  <span class="text-info">Select A Payment Method:</span>
 							  </legend>
-							  @foreach(var obj in (SD.PaymentMethods[])Enum.GetValues(typeof(SD.PaymentMethods)))
+							  @*@foreach(var obj in (SD.PaymentMethods[])Enum.GetValues(typeof(SD.PaymentMethods)))
 							  {
 								 <div class="form-check">
 									<label class="form-check-label">
 										<input asp-for="OrderHeader.PaymentOption" type="radio" class="form-check-input" value="@obj">@obj
 									</label>
 								</div>
-							  }
+							  }*@
 							</fieldset>
 						</div>
 

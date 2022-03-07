@@ -82,27 +82,27 @@ namespace SADA.Web.Areas.Client.Controllers
                 _unitOfWorks.Save();
             }
 
-            if (ShoppingCartVM.OrderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Card)
-            {
+            //if (ShoppingCartVM.OrderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Card)
+            //{
                 //stripe setting
                 Session session = CheckoutByStripe(ShoppingCartVM.ListCart);
                 _unitOfWorks.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
                 _unitOfWorks.Save();
                 
                 Response.Headers.Add("Location", session.Url);
-            }
-            else if (ShoppingCartVM.OrderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Cash)
-            {
-                OrderConfirmationAsync(ShoppingCartVM.OrderHeader.Id);
-            }
+            //}
+            //else if (ShoppingCartVM.OrderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Cash)
+            //{
+            //    OrderConfirmationAsync(ShoppingCartVM.OrderHeader.Id);
+            //}
             return new StatusCodeResult(303);
         }
 
         public async Task<IActionResult> OrderConfirmationAsync(int id)
         {
             OrderHeader orderHeader = _unitOfWorks.OrderHeader.GetById(id);
-            if(orderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Card)
-            {
+            //if(orderHeader.PaymentOption == (SD.PaymentMethods)SD.PaymentMethods.Card)
+            //{
                 //check the stripe status
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
@@ -110,7 +110,7 @@ namespace SADA.Web.Areas.Client.Controllers
                 {
                     return RedirectToAction("Summary"); 
                 }
-            }
+            //}
             _unitOfWorks.OrderHeader.UpdateStatus(id, SD.Status.Approved.ToString(), SD.Status.Approved.ToString());
             _unitOfWorks.Save();
 

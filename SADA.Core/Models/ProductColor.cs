@@ -9,7 +9,6 @@ public class ProductColor
     [Required]
     public string ColorName { get; set; }
     public int ProductId { get; set; }
-
     [ForeignKey("ProductId")]
     [ValidateNever]
     public Product Product { get; set; }

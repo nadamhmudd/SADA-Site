@@ -1,7 +1,5 @@
-﻿namespace SADA.Service.Interfaces
+﻿namespace SADA.Service.Interfaces;
+public interface ISmsSender
 {
-    public interface ISmsSender
-    {
-        Task SendSMSAsync(string phoneNumber, string message);
-    }
+    Task SendSMSAsync(string phoneNumber, string message);
 }

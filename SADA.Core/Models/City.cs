@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SADA.Core.Models;
-
 public class City
 {
     public int Id { get; set; }

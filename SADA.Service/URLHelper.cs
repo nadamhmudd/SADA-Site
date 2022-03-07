@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SADA.Service.Interfaces;
 
-namespace SADA.Service
+namespace SADA.Service;
+public class URLHelper : IURLHelper
 {
-    public class URLHelper : IURLHelper
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public URLHelper(IHttpContextAccessor httpContextAccessor)
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public URLHelper(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+        _httpContextAccessor = httpContextAccessor;
+    }
 
-        public string Url(string path)
-        {
-            return $"https://{_httpContextAccessor.HttpContext.Request.Host.ToString()}/{path}";
-        }
+    public string Url(string path)
+    {
+        return $"https://{_httpContextAccessor.HttpContext.Request.Host.ToString()}/{path}";
     }
 }
