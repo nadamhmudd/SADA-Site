@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SADA.Migrations
 {
-    public partial class CreateGovernorateTabelToDb : Migration
+    public partial class CreateGovernorateTableToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

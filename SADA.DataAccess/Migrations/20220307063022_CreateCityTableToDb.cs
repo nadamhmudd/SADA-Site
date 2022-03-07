@@ -4,7 +4,7 @@
 
 namespace SADA.Migrations
 {
-    public partial class CreateCityTabelToDb : Migration
+    public partial class CreateCityTableToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -12,8 +12,8 @@ using SADA.DataAccess;
 namespace SADA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220307063459_CreateProductSizeTabelToDb")]
-    partial class CreateProductSizeTabelToDb
+    [Migration("20220307063421_CreateProductImageTableToDb")]
+    partial class CreateProductImageTableToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -461,28 +461,6 @@ namespace SADA.Migrations
                     b.ToTable("ProductImages");
                 });
 
-            modelBuilder.Entity("SADA.Core.Models.ProductSize", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductSizes");
-                });
-
             modelBuilder.Entity("SADA.Core.Models.ShoppingCart", b =>
                 {
                     b.Property<int>("Id")
@@ -634,17 +612,6 @@ namespace SADA.Migrations
                 });
 
             modelBuilder.Entity("SADA.Core.Models.ProductImage", b =>
-                {
-                    b.HasOne("SADA.Core.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductSize", b =>
                 {
                     b.HasOne("SADA.Core.Models.Product", "Product")
                         .WithMany()

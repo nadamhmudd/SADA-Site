@@ -12,8 +12,8 @@ using SADA.DataAccess;
 namespace SADA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220216023631_CreateOrderTabelsToDb")]
-    partial class CreateOrderTabelsToDb
+    [Migration("20220307063459_CreateProductSizeTableToDb")]
+    partial class CreateProductSizeTableToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,6 +251,51 @@ namespace SADA.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("SADA.Core.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("ShippingFees")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GovernorateId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("SADA.Core.Models.Governorate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("ShippingFees")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Governorates");
+                });
+
             modelBuilder.Entity("SADA.Core.Models.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -312,7 +357,7 @@ namespace SADA.Migrations
                     b.Property<double>("OrderTotal")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("PaymentDate")
+                    b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentIntentId")
@@ -389,6 +434,53 @@ namespace SADA.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SADA.Core.Models.ProductImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("IsCover")
+                        .HasColumnType("tinyint");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+                });
+
+            modelBuilder.Entity("SADA.Core.Models.ProductSize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductSizes");
                 });
 
             modelBuilder.Entity("SADA.Core.Models.ShoppingCart", b =>
@@ -489,6 +581,17 @@ namespace SADA.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SADA.Core.Models.City", b =>
+                {
+                    b.HasOne("SADA.Core.Models.Governorate", "Governorate")
+                        .WithMany()
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Governorate");
+                });
+
             modelBuilder.Entity("SADA.Core.Models.OrderDetail", b =>
                 {
                     b.HasOne("SADA.Core.Models.OrderHeader", "OrderHeader")
@@ -528,6 +631,28 @@ namespace SADA.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("SADA.Core.Models.ProductImage", b =>
+                {
+                    b.HasOne("SADA.Core.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("SADA.Core.Models.ProductSize", b =>
+                {
+                    b.HasOne("SADA.Core.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("SADA.Core.Models.ShoppingCart", b =>

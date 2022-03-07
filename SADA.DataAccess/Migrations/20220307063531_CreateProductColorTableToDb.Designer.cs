@@ -12,8 +12,8 @@ using SADA.DataAccess;
 namespace SADA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220307063531_CreateProductColorTabelToDb")]
-    partial class CreateProductColorTabelToDb
+    [Migration("20220307063531_CreateProductColorTableToDb")]
+    partial class CreateProductColorTableToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

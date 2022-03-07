@@ -12,8 +12,8 @@ using SADA.DataAccess;
 namespace SADA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220307063022_CreateCityTabelToDb")]
-    partial class CreateCityTabelToDb
+    [Migration("20220307062924_CreateGovernorateTableToDb")]
+    partial class CreateGovernorateTableToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -249,31 +249,6 @@ namespace SADA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GovernorateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("ShippingFees")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GovernorateId");
-
-                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("SADA.Core.Models.Governorate", b =>
@@ -532,17 +507,6 @@ namespace SADA.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.City", b =>
-                {
-                    b.HasOne("SADA.Core.Models.Governorate", "Governorate")
-                        .WithMany()
-                        .HasForeignKey("GovernorateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Governorate");
                 });
 
             modelBuilder.Entity("SADA.Core.Models.OrderDetail", b =>

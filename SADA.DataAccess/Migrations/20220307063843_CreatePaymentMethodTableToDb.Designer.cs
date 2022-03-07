@@ -12,8 +12,8 @@ using SADA.DataAccess;
 namespace SADA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220307063843_CreatePaymentMethodTabelToDb")]
-    partial class CreatePaymentMethodTabelToDb
+    [Migration("20220307063843_CreatePaymentMethodTableToDb")]
+    partial class CreatePaymentMethodTableToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

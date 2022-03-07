@@ -4,7 +4,7 @@
 
 namespace SADA.Migrations
 {
-    public partial class CreatePaymentMethodTabelToDb : Migration
+    public partial class CreatePaymentMethodTableToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

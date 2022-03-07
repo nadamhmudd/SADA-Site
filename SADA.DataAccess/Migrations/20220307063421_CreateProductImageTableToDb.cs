@@ -4,7 +4,7 @@
 
 namespace SADA.Migrations
 {
-    public partial class CreateProductImageTabelToDb : Migration
+    public partial class CreateProductImageTableToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
