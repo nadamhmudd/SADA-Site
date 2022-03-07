@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SADA.DataAccess;
 
@@ -11,9 +12,10 @@ using SADA.DataAccess;
 namespace SADA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220307062924_CreateGovernorateTabelToDb")]
+    partial class CreateGovernorateTabelToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,31 +251,6 @@ namespace SADA.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("SADA.Core.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GovernorateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float?>("ShippingFees")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GovernorateId");
-
-                    b.ToTable("Cities");
-                });
-
             modelBuilder.Entity("SADA.Core.Models.Governorate", b =>
                 {
                     b.Property<int>("Id")
@@ -391,23 +368,6 @@ namespace SADA.Migrations
                     b.ToTable("OrderHeaders");
                 });
 
-            modelBuilder.Entity("SADA.Core.Models.PaymentMethod", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentMethods");
-                });
-
             modelBuilder.Entity("SADA.Core.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -449,75 +409,6 @@ namespace SADA.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductColor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ColorName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductColors");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte>("IsCover")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImages");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductSize", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Size")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductSizes");
                 });
 
             modelBuilder.Entity("SADA.Core.Models.ShoppingCart", b =>
@@ -618,17 +509,6 @@ namespace SADA.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SADA.Core.Models.City", b =>
-                {
-                    b.HasOne("SADA.Core.Models.Governorate", "Governorate")
-                        .WithMany()
-                        .HasForeignKey("GovernorateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Governorate");
-                });
-
             modelBuilder.Entity("SADA.Core.Models.OrderDetail", b =>
                 {
                     b.HasOne("SADA.Core.Models.OrderHeader", "OrderHeader")
@@ -668,39 +548,6 @@ namespace SADA.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductColor", b =>
-                {
-                    b.HasOne("SADA.Core.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductImage", b =>
-                {
-                    b.HasOne("SADA.Core.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("SADA.Core.Models.ProductSize", b =>
-                {
-                    b.HasOne("SADA.Core.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("SADA.Core.Models.ShoppingCart", b =>
