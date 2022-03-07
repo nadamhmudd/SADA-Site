@@ -5,7 +5,7 @@ namespace SADA.Core.Models;
 public class Category
 {
     [Key] //Primary Key
-    public int Id { get; set; } //byte
+    public int Id { get; set; }
 
     [Required] //can't be null
     public string Name { get; set; }
