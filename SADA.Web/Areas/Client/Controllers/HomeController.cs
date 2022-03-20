@@ -34,7 +34,7 @@ public class HomeController : Controller
         ShoppingCart obj = new()
         {
             Count = 1,
-            ProductID = productId,
+            ProductId = productId,
             Product = _unitOfWorks.Product.GetFirstOrDefault(o => o.Id== productId, includeProperties: "Category")
         };
 
@@ -48,12 +48,13 @@ public class HomeController : Controller
     {
         //retrieve application user id
         //get logged user
-        obj.ApplicationUserID = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
+        //obj.ApplicationUserID = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
 
-        ShoppingCart cartFromDb = _unitOfWorks.ShoppingCart.GetFirstOrDefault(criteria: 
-               u => u.ApplicationUserID == obj.ApplicationUserID && u.ProductID == obj.ProductID);
+        ShoppingCart cartFromDb = _unitOfWorks.ShoppingCart.GetFirstOrDefault( criteria: u 
+            => u.ProductId == obj.ProductId);
+        /*u => u.ApplicationUserID == obj.ApplicationUserID &&*/
 
-        if(cartFromDb is null)
+        if (cartFromDb is null)
         {
             //added first time
             _unitOfWorks.ShoppingCart.Add(obj);

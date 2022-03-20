@@ -45,8 +45,8 @@ namespace SADA.Web.Areas.Client.Controllers
         {
             ShoppingCartVM = UploadCartFromDb();
             //add application user data
-            ShoppingCartVM.OrderHeader.ApplicationUserId = _loggedUser.Id;
-            ShoppingCartVM.OrderHeader.ApplicationUser = _loggedUser;
+            //ShoppingCartVM.OrderHeader.ApplicationUserId = _loggedUser.Id;
+            ///ShoppingCartVM.OrderHeader.ApplicationUser = _loggedUser;
             ShoppingCartVM.OrderHeader.Name = _loggedUser.Name;
             ShoppingCartVM.OrderHeader.PhoneNumber = _loggedUser.PhoneNumber;
             ShoppingCartVM.OrderHeader.StreetAddress = _loggedUser.StreetAddress;
@@ -61,7 +61,7 @@ namespace SADA.Web.Areas.Client.Controllers
         public IActionResult SummaryPost()
         {
             //OrderHeader
-            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+            //ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
             ShoppingCartVM.OrderHeader.OrderStatus = SD.Status.Pending.ToString();
             ShoppingCartVM.OrderHeader.PaymentStatus = SD.Status.Pending.ToString();
             _unitOfWorks.OrderHeader.Add(ShoppingCartVM.OrderHeader);
@@ -73,8 +73,8 @@ namespace SADA.Web.Areas.Client.Controllers
             {
                 OrderDetail orderDetail = new()
                 {
-                    OrderId = ShoppingCartVM.OrderHeader.Id,
-                    ProductId = item.ProductID,
+                    //OrderId = ShoppingCartVM.OrderHeader.Id,
+                    ProductId = item.ProductId,
                     Count = item.Count,
                     Price = item.Product.Price
                 };
@@ -116,8 +116,8 @@ namespace SADA.Web.Areas.Client.Controllers
 
             //remove shopping cart
             List<ShoppingCart> ListCart = _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product",
-                criteria: c => c.ApplicationUserID == orderHeader.ApplicationUserId
+                includeProperties: "Product"
+                //criteria: c => c.ApplicationUserID == orderHeader.ApplicationUserId
                 ).ToList();
             _unitOfWorks.ShoppingCart.RemoveRange(ListCart);
             _unitOfWorks.Save();
@@ -185,8 +185,9 @@ namespace SADA.Web.Areas.Client.Controllers
         private IEnumerable<ShoppingCart> CollectOrderItems()
         {
             return _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product",
-                criteria: c => c.ApplicationUserID == _loggedUser.Id);
+                includeProperties: "Product"
+                //,criteria: c => c.ApplicationUserID == _loggedUser.Id
+                );
         }
         private Session CheckoutByStripe(IEnumerable<ShoppingCart> CartList)
         {

@@ -145,7 +145,7 @@ namespace SADA.Web.Areas.Identity.Pages.Account
 
                     if(Input.Role is null)
                     {
-                        await _userManager.AddToRoleAsync(user, SD.Role_Client);
+                        await _userManager.AddToRoleAsync(user, SD.Role_User);
                     }
                     else
                     {

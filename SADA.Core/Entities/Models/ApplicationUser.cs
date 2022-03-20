@@ -1,0 +1,14 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace SADA.Core.Models;
+public class ApplicationUser : IdentityUser
+{
+    public string Name { get; set; }
+    
+    public string? StreetAddress { get; set; }
+    
+    public int? CityId { get; set; }
+    public City? City { get; set; }
+
+    public List<ShoppingCart>? ShoppingCart { get; set; }
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SADA.DataAccess;
 
@@ -11,9 +12,10 @@ using SADA.DataAccess;
 namespace SADA.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220320171617_AddOrderTable")]
+    partial class AddOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -574,49 +576,9 @@ namespace SADA.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("SADA.Core.Models.OrderDetail", "Items", b1 =>
-                        {
-                            b1.Property<int>("OrderHeaderId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<int>("Count")
-                                .HasColumnType("int");
-
-                            b1.Property<double>("Price")
-                                .HasColumnType("float");
-
-                            b1.Property<int>("ProductId")
-                                .HasColumnType("int");
-
-                            b1.HasKey("OrderHeaderId", "Id");
-
-                            b1.HasIndex("ProductId");
-
-                            b1.ToTable("OrderDetail");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderHeaderId");
-
-                            b1.HasOne("SADA.Core.Models.Product", "Product")
-                                .WithMany()
-                                .HasForeignKey("ProductId")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.Navigation("Product");
-                        });
-
                     b.Navigation("ApplicationUser");
 
                     b.Navigation("City");
-
-                    b.Navigation("Items");
 
                     b.Navigation("PaymentMethod");
                 });

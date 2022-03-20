@@ -28,8 +28,8 @@ namespace SADA.Web.Areas.Admin.Controllers
             {
                 OrderHeader  = _unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == orderId, "ApplicationUser"),
                 OrderDetails = _unitOfWorks.OrderDetail.GetAll(
-                        includeProperties: "Product",
-                        criteria: o => o.OrderId == orderId
+                        includeProperties: "Product"
+                       // criteria: o => o.OrderId == orderId
                     )
             };
             return View(OrderManagementVM);

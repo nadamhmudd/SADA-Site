@@ -7,6 +7,7 @@ using SADA.Service;
 using Stripe;
 using SADA.Service.Settings;
 using SADA.Service.Interfaces;
+using SADA.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,13 +19,13 @@ builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("StripeSettings"));
 builder.Services.Configure<TwilioSetting>(builder.Configuration.GetSection("TwilioSettings"));
-
-builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProviders()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
 //register unitOfWork for our program 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
