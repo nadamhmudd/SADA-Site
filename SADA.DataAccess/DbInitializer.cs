@@ -68,8 +68,8 @@ public class DbInitializer : IDbInitializer
             Name = "SADA Admin",
         }, "Admin123*").GetAwaiter().GetResult();
 
-        //ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == _mailSettings.Email);
+        ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == _mailSettings.Email);
 
-        //_userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+        _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
     }
 }

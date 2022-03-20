@@ -16,4 +16,8 @@
     <ProjectReference Include="..\SADA.Service\SADA.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Constants\" />
+  </ItemGroup>
+
 </Project>

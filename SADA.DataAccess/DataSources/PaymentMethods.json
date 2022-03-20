@@ -1,0 +1,10 @@
+﻿[
+  {
+    "id": "1",
+    "name": "Cash On Delivery",
+  },
+  {
+    "id": "2",
+    "name": "Pay by Card"
+  }
+]

@@ -67,7 +67,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-//SeedDatabase();
+SeedDatabase();
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 
 app.UseAuthentication(); //always Authentication come first

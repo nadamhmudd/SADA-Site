@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SADA.Core.Entities;
+﻿using SADA.Core.Entities;
 
 namespace SADA.Core.Models;
 public class City : BaseEntity
