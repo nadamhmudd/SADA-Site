@@ -4,7 +4,7 @@
 
 namespace SADA.DataAccess.Migrations
 {
-    public partial class AddOrderDetailsTable : Migration
+    public partial class AddOrderDetailTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

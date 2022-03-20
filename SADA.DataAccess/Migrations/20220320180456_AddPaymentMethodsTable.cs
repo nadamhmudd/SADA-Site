@@ -5,30 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SADA.DataAccess.Migrations
 {
-    public partial class AddGovernorateTable : Migration
+    public partial class AddPaymentMethodsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Governorates",
+                name: "PaymentMethods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShippingFees = table.Column<float>(type: "real", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Governorates", x => x.Id);
+                    table.PrimaryKey("PK_PaymentMethods", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Governorates");
+                name: "PaymentMethods");
         }
     }
 }

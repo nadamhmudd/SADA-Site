@@ -5,42 +5,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SADA.DataAccess.Migrations
 {
-    public partial class AddCityTable : Migration
+    public partial class AddCategoriesTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Cities",
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShippingFees = table.Column<float>(type: "real", nullable: true),
-                    GovernorateId = table.Column<int>(type: "int", nullable: false),
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cities_Governorates_GovernorateId",
-                        column: x => x.GovernorateId,
-                        principalTable: "Governorates",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_GovernorateId",
-                table: "Cities",
-                column: "GovernorateId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Cities");
+                name: "Categories");
         }
     }
 }

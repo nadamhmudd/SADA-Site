@@ -9,13 +9,13 @@ using SADA.Service.Settings;
 namespace SADA.DataAccess;
 public class DbInitializer : IDbInitializer
 {
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private ApplicationDbContext _db;
     private readonly MailSetting _mailSettings;
 
     public DbInitializer(
-        UserManager<ApplicationUser> userManager,
+        UserManager<IdentityUser> userManager,
         RoleManager<IdentityRole> roleManager,
         ApplicationDbContext db,
         IOptions<MailSetting> mailSettings)
@@ -68,8 +68,8 @@ public class DbInitializer : IDbInitializer
             Name = "SADA Admin",
         }, "Admin123*").GetAwaiter().GetResult();
 
-        ApplicationUser user = _db.Users.FirstOrDefault(u => u.Email == _mailSettings.Email);
+        //ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == _mailSettings.Email);
 
-        _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+        //_userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SADA.DataAccess.Migrations
 {
-    public partial class AddOrderTable : Migration
+    public partial class AddOrderHeaderTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

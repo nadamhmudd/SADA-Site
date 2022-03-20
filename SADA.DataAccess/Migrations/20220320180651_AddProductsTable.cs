@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SADA.DataAccess.Migrations
 {
-    public partial class AddProductTables : Migration
+    public partial class AddProductsTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

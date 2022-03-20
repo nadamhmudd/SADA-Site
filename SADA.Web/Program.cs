@@ -11,6 +11,8 @@ using SADA.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -20,7 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddDefaultTokenProviders()
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("MailSettings"));
@@ -65,7 +67,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-SeedDatabase();
+//SeedDatabase();
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("StripeSettings:SecretKey").Get<string>();
 
 app.UseAuthentication(); //always Authentication come first
