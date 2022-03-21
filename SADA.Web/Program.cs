@@ -1,17 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using SADA.Core.Interfaces;
-using SADA.DataAccess;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using SADA.Service;
 using Stripe;
-using SADA.Service.Settings;
-using SADA.Service.Interfaces;
-using SADA.Core.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

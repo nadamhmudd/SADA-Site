@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Core.Interfaces;
-using SADA.Service;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace SADA.Web.ViewComponents
 {

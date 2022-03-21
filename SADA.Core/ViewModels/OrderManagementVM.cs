@@ -1,4 +1,4 @@
-﻿using SADA.Core.Models;
+﻿global using SADA.Core.Entities;
 
 namespace SADA.Core.ViewModels;
 public class OrderManagementVM

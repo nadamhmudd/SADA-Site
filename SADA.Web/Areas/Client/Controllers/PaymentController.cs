@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Service.Interfaces;
-using Stripe.Checkout;
+﻿using Stripe.Checkout;
 
 namespace SADA.Web.Areas.Client.Controllers
 {

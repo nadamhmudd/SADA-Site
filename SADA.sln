@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Web", "SADA.Web\SADA.Web.csproj", "{EDD73CFB-D6A5-4ADD-8068-40A939A328B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.DataAccess", "SADA.DataAccess\SADA.DataAccess.csproj", "{98C77726-5910-44F4-B77B-ACDB20382689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Infrastructure", "SADA.Infrastructure\SADA.Infrastructure.csproj", "{98C77726-5910-44F4-B77B-ACDB20382689}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SADA.Core", "SADA.Core\SADA.Core.csproj", "{C145A1FA-2192-4AC9-8CB3-9131542295CA}"
 EndProject

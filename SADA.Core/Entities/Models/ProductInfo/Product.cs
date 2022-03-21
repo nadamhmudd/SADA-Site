@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using SADA.Core.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SADA.Core.Models;
+namespace SADA.Core.Entities;
 public class Product : BaseEntity
 {
     [MaxLength(20)]

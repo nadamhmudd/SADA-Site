@@ -1,4 +1,4 @@
-namespace SADA.Core.Models;
+namespace SADA.Core.Entities;
 public class ErrorViewModel
 {
     public string? RequestId { get; set; }

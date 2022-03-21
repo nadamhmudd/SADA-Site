@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Core.Interfaces;
-using SADA.Core.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using SADA.Service;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SADA.Web.Areas.Admin.Controllers;
 

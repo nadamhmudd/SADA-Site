@@ -1,0 +1,11 @@
+﻿global using SADA.Core.Interfaces;
+global using SADA.Core.Settings;
+global using SADA.Service;
+global using SADA.Infrastructure.DataAccess;
+global using SADA.Infrastructure.ThirdPartyServices;
+global using SADA.Infrastructure.EF;
+global using SADA.Core.Constants;
+global using SADA.Core.Entities;
+global using Microsoft.AspNetCore.Authorization;
+global using SADA.Core.ViewModels;
+global using Microsoft.AspNetCore.Mvc;

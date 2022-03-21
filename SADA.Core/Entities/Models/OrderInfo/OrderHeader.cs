@@ -1,7 +1,4 @@
-﻿using SADA.Core.Entities;
-
-namespace SADA.Core.Models;
-
+﻿namespace SADA.Core.Entities;
 public class OrderHeader : BaseEntity
 {
     public List<OrderDetail> Items { get; set; }

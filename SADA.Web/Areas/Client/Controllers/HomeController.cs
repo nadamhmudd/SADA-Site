@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SADA.Core.Interfaces;
-using SADA.Core.Models;
-using SADA.Service;
-using System.Diagnostics;
-
+﻿using System.Diagnostics;
 
 namespace SADA.Web.Areas.Client.Controllers;
 

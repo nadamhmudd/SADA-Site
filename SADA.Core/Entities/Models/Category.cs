@@ -1,6 +1,6 @@
 ﻿using SADA.Core.Entities;
 
-namespace SADA.Core.Models;
+namespace SADA.Core.Entities;
 public class Category : BaseEntity
 {
     public string Name { get; set; }

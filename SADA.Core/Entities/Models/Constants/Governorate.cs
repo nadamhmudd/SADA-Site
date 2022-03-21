@@ -1,6 +1,4 @@
-﻿using SADA.Core.Entities;
-
-namespace SADA.Core.Models;
+﻿namespace SADA.Core.Entities;
 public class Governorate : BaseEntity
 {
     public string Name { get; set; }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SADA.Core.Entities;
 
-namespace SADA.Core.Models;
+namespace SADA.Core.Entities;
 
 [Owned]
 public class ShoppingCart : BaseEntity

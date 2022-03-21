@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Braintree" Version="5.11.0" />
-    <PackageReference Include="MailKit" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.2" />
-    <PackageReference Include="MimeKit" Version="3.1.1" />
-    <PackageReference Include="Twilio" Version="5.71.0" />
+    <ProjectReference Include="..\SADA.Core\SADA.Core.csproj" />
+    <ProjectReference Include="..\SADA.Infrastructure\SADA.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

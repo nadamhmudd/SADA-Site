@@ -1,4 +1,4 @@
-﻿using SADA.Service;
+﻿using SADA.Core.Constants;
 using System.Linq.Expressions;
 
 namespace SADA.Core.Interfaces.Repositories;

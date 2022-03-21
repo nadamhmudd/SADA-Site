@@ -25,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SADA.DataAccess\SADA.DataAccess.csproj" />
+    <ProjectReference Include="..\SADA.Core\SADA.Core.csproj" />
+    <ProjectReference Include="..\SADA.Service\SADA.Service.csproj" />
   </ItemGroup>
 
 </Project>

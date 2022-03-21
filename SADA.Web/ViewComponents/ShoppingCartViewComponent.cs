@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SADA.Core.Interfaces;
-using SADA.Core.Models;
-using SADA.Service;
-
-namespace SADA.Web.ViewComponents
+﻿namespace SADA.Web.ViewComponents
 {
     public class ShoppingCartViewComponent : ViewComponent
     {

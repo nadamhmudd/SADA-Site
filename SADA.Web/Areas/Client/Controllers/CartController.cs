@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using SADA.Core.Interfaces;
-using SADA.Core.Models;
-using SADA.Core.ViewModels;
-using SADA.Service;
-using SADA.Service.Interfaces;
-using Stripe.Checkout;
+﻿using Stripe.Checkout;
 
 namespace SADA.Web.Areas.Client.Controllers
 {
