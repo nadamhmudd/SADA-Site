@@ -24,13 +24,8 @@ namespace SADA.Service
 
             Category = new BaseRepository<Category>(_db.Set<Category>());
             Product  = new ProductRepository(_db.Set<Product>());
-            ProductImages = new BaseRepository<ProductImage>(_db.Set<ProductImage>());
-            ProductSizes = new BaseRepository<ProductSize>(_db.Set<ProductSize>());
-            ProductColors = new BaseRepository<ProductColor>(_db.Set<ProductColor>());
 
-            ShoppingCart = new ShoppingCartRepository(_db.Set<ShoppingCart>());
             OrderHeader = new OrderHeaderRepository(_db.Set<OrderHeader>());
-            OrderDetail = new BaseRepository<OrderDetail>(_db.Set<OrderDetail>());
         }
 
         public IBaseRepository<Governorate> Governorate { get; private set; }
@@ -41,13 +36,8 @@ namespace SADA.Service
 
         public IBaseRepository<Category> Category { get; private set; }
         public IProductRepository Product { get; private set; }
-        public IBaseRepository<ProductImage> ProductImages { get; private set; }
-        public IBaseRepository<ProductSize> ProductSizes { get; private set; }
-        public IBaseRepository<ProductColor> ProductColors { get; private set; }
 
-        public IShoppingCartRepository ShoppingCart { get; private set; }
         public IOrderHeaderRepository OrderHeader { get; private set; }
-        public IBaseRepository<OrderDetail> OrderDetail { get; private set; }
 
         public void Save() => _db.SaveChanges();
     }

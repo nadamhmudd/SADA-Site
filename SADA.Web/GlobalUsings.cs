@@ -9,3 +9,4 @@ global using SADA.Core.Entities;
 global using Microsoft.AspNetCore.Authorization;
 global using SADA.Core.ViewModels;
 global using Microsoft.AspNetCore.Mvc;
+global using SADA.Services.Helpers.FilesHnadler;

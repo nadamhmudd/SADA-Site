@@ -6,21 +6,28 @@ namespace SADA.Web.Areas.Admin.Controllers;
 [Authorize(Roles = SD.Role_Admin)]
 public class ProductController : Controller
 {
-    // To achieve dependency injection
+    #region Props
     private readonly IUnitOfWork _unitOfWork;
     private readonly IWebHostEnvironment _hostEnviroment; //to access www root
+    private readonly IFileHandler _fileHandler;
+    #endregion
 
-    public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnvironment)
+    #region Constructor(s)
+    public ProductController(IUnitOfWork unitOfWork, 
+        IWebHostEnvironment hostEnvironment, 
+        IFileHandler fileHandler)
     {
         _unitOfWork = unitOfWork;
         _hostEnviroment = hostEnvironment;
+        _fileHandler = fileHandler;
     }
+    #endregion
 
+    #region Actions
     public IActionResult Index() => View();
 
     //Build one method can deals with create and update 
-    //GET
-    public IActionResult Upsert(int? id)
+    public IActionResult ProductForm(int? id)
     {
         //Initialize Model
         ProductVM productVM = new()
@@ -43,96 +50,59 @@ public class ProductController : Controller
             //Update
             //Retrieve product from Db
             productVM.Product = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id);
+           
             if (productVM.Product is null)
                 return NotFound();
 
             return View(productVM);
         }
     }
-    //POST
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Upsert(ProductVM obj, IFormFile? file)
+ 
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult ProductForm(ProductVM obj, IFormFile? file)
     {
         if (ModelState.IsValid) //depends on constraints in the model
         {
-            //upload files in www root
-            string wwwRootPath = _hostEnviroment.WebRootPath; //access web root path
-            if(file != null)
+            string key;
+
+            if (file != null)
             {
-                //delete old image if not equal null
-                if(obj.Product.CoverUrl != null) //update image
-                {
-                    DeleteImage(obj.Product.CoverUrl);
+                string posterUrl =  _fileHandler.Image.Upload(file,Path.Combine(_hostEnviroment.WebRootPath, SD.ProductImagespath));
+
+                if (!posterUrl.Contains('\\'))
+                { //not path
+                    TempData["error"] = posterUrl; //error message
+                    return View(obj);
                 }
-                //preparing saved file in our projects 
-                //generate unique file name
-                var fileName  = Guid.NewGuid().ToString();
-                //generate location to upload file here
-                var uploads   = Path.Combine(wwwRootPath, @"images\products");
-                //keep extension of file
-                var extension = Path.GetExtension(file.FileName);
-                //copy inputfile and save it
-                using (var fileStream = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+
+                //delete old image if updated
+                if (obj.Product.CoverUrl != null)
                 {
-                    file.CopyTo(fileStream);
+                    _fileHandler.Image.Delete(obj.Product.CoverUrl);
                 }
-                //save in Db
-                obj.Product.CoverUrl = @$"\images\products\{fileName + extension}";
+
+                obj.Product.CoverUrl = posterUrl;
             }
-        
+
             if (obj.Product.Id == 0)//store method 
             {
                 _unitOfWork.Product.Add(obj.Product);
-                TempData["success"] = "Product Created Successfully";
+                key = "Created";
             }
+            
             else //update method 
             {
                 _unitOfWork.Product.Update(obj.Product);
-                TempData["success"] = "Product Updated Successfully";
+                key = "Updated";
             }
+            
             _unitOfWork.Save();
+            
+            TempData["success"] = $"Product {key} Successfully";
 
             return RedirectToAction("Index");
         }
-
         return View(obj);
-    }
-
-    private void DeleteImage(string image)
-    {
-        var oldImagePath = Path.Combine(_hostEnviroment.WebRootPath, image.TrimStart('\\'));
-        if (System.IO.File.Exists(oldImagePath))
-        {
-            System.IO.File.Delete(oldImagePath); //old image deleted
-        }
-    }
-
-    #region API CALLS
-    [HttpGet]
-    public IActionResult GetAll()
-    {
-        var productsList = _unitOfWork.Product.GetAll("Category", o => o.Id, SD.Descending);
-        return Json(new { data = productsList });
-    }
-
-    [HttpDelete]
-    public IActionResult Delete(int? id)
-    {
-        var obj = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id);
-        if(obj == null)
-        {
-            return Json(new { success = false, message = "Error while deleting!" });
-        }
-
-        if (obj.CoverUrl != null) //delete image
-        {
-            DeleteImage(obj.CoverUrl);
-        }
-
-        _unitOfWork.Product.Remove(obj);
-        _unitOfWork.Save();
-        return Json(new { success = true, message = "Delete Successful" });
     }
     #endregion
 }

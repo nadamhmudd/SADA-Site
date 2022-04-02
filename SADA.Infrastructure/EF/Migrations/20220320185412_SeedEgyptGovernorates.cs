@@ -10,7 +10,7 @@ namespace SADA.Infrastructure.EF.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            StreamReader r = new StreamReader(@"..\SADA.DataAccess\DataSources\EgyptGovernorates.json");
+            StreamReader r = new StreamReader(@"..\SADA.Infrastructure\DataSources\EgyptGovernorates.json");
             string jsonString = r.ReadToEnd();
             var data = JsonConvert.DeserializeObject<List<GovernorateData>>(jsonString);
 

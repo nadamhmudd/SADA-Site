@@ -1,5 +1,4 @@
-﻿
-var dataTable;
+﻿var dataTable;
 
 $(document).ready(function () {
     LoadDataTable();
@@ -7,76 +6,77 @@ $(document).ready(function () {
 
 function LoadDataTable() {
     dataTable = $('#tblData').DataTable({
-        "ajax": {
-            "url": "/Admin/Product/GetAll"
+        ajax: {
+            url: "/api/Products",
+            dataSrc: ""
         },
-        "order": [],
-        "columns": [
+        order: [],
+        columns: [
             {
-                "data": "coverUrl",
-                "render": function (data) {
+                data: "coverUrl",
+                render: function (data) {
                     return `<img src="${data}" width=100%; height=100%/>`
                 },
-                "width": "15%",
+                width: "15%",
             },
             {
-                "data": "name",
-                "render": function (data) {
+                data: "name",
+                render: function (data) {
                     return `<div style='margin-top:50px'>${data}</div>`
                 },
-                "width": "15%"
+                width: "15%"
             },
             {
-                "data": "description",
-                "render": function (data) {
+                data: "description",
+                render: function (data) {
                     return `<div style='margin-top:50px'>${data}</div>`
                 },
-                "width": "15%"
+                width: "15%"
             },
             {
-                "data": "price",
-                "render": function (data) {
+                data: "price",
+                render: function (data) {
                     return `<div style='margin-top:50px'>${data}</div>`
                 },
-                "width": "20%"
+                width: "20%"
             },
             {
-                "data": "discountAmount",
-                "render": function (data) {
+                data: "discountAmount",
+                render: function (data) {
                     return `<div style='margin-top:50px'>${data}</div>`
                 },
-                "width": "10%"
+                width: "10%"
             },
             {
-                "data": "category.name",
-                "render": function (data) {
+                data: "category.name",
+                render: function (data) {
                     return `<div style='margin-top:50px'>${data}</div>`
                 },
-                "width": "10%"
+                width: "10%"
             },
             {
-                "data": "id",
-                "render": function (data) {
+                data: "id",
+                render: function (data) {
                     return `
                         <div role="group" style="text-align:center">
                             <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-outline-light btn-sm" style="margin-top:50px">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
 
-                            <a onClick=Delete('/Admin/Product/Delete/${data}')
+                            <a onClick=Delete('${data}')
                             class="btn btn-outline-danger btn-sm" style="margin-top:50px">
                             <i class="bi bi-trash-fill"></i>
                             </a>
                         </div>
                             `
                 },
-                "width": "15%"
+                width: "15%"
             }
         ],
     });
 }
 
-function Delete(url) {
+function Delete(id) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -89,16 +89,10 @@ function Delete(url) {
         if (result.isConfirmed) {
             //here
             $.ajax({
-                url: url,
-                type: 'DELETE',
+                url: '/api/Products/'+id,
+                method: 'DELETE',
                 success: function (data) {
-                    if (data.success) {
-                        dataTable.ajax.reload();
-                        toastr.success(data.message);
-                    }
-                    else {
-                        toastr.error(data.message);
-                    }
+                    dataTable.ajax.reload();
                 }
             })
         }

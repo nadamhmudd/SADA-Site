@@ -1,5 +1,4 @@
-﻿
-var dataTable;
+﻿var dataTable;
 
 $(document).ready(function () {
     LoadDataTable();
@@ -7,16 +6,17 @@ $(document).ready(function () {
 
 function LoadDataTable() {
     dataTable = $('#tblData').DataTable({
-        "ajax": {
-            "url": "/Admin/Category/GetAll"
+        ajax: {
+            url: "/api/Categories",
+            dataSrc: ""
         },
-        "order": [],
-        "columns": [
-            {"data": "name", "width": "15%"},
-            {"data": "displayOrder", "width": "15%"},
+        order: [],
+        columns: [
+            {data: "name", width: "15%"},
+            {data: "displayOrder", width: "15%"},
             {
-                "data": "id",
-                "render": function (data) {
+                data: "id",
+                render: function (data) {
                     return `
                         <div role="group" style="text-align:center">
                             <a href="/Admin/Category/Edit?id=${data}"
@@ -24,20 +24,20 @@ function LoadDataTable() {
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
 
-                            <a onClick=Delete('/Admin/Category/Delete/${data}')
+                            <a onClick=Delete('${data}')
                             class="btn btn-outline-danger btn-sm">
                                 <i class="bi bi-trash-fill"></i>
                             </a>
                         </div>
                             `
                 },
-                "width": "15%"
+                width: "15%"
             }
         ],
     });
 }
 
-function Delete(url) {
+function Delete(id) {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -50,16 +50,10 @@ function Delete(url) {
         if (result.isConfirmed) {
             //here
             $.ajax({
-                url: url,
-                type: 'DELETE',
-                success: function (data) {
-                    if (data.success) {
-                        dataTable.ajax.reload();
-                        toastr.success(data.message);
-                    }
-                    else {
-                        toastr.error(data.message);
-                    }
+                url: '/api/Categories/'+id,
+                method: 'DELETE',
+                success: function() {
+                    dataTable.ajax.reload();
                 }
             })
         }

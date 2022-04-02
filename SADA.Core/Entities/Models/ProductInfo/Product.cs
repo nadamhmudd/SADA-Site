@@ -17,12 +17,12 @@ public class Product : BaseEntity
     [Display(Name = "Stock Count")]
     public int StockCount { get; set; } //not null
 
-    public byte OnSale { get; set; } = 0;
+    public bool OnSale { get; set; } = false;
 
     [Display(Name = "Discount Amount")]
     public double DiscountAmount { get; set; } = 0.0;
 
-    [Display(Name = "Discount Percentage")]
+    [Display(Name = "Discount %")]
     public double DiscountPercentage { get; set; } = 0.0;
 
     [Display(Name = "Category")]

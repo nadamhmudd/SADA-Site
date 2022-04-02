@@ -16,10 +16,10 @@
             {
                 if(HttpContext.Session.GetInt32(SD.SessionCart) == null)
                 {
-                    HttpContext.Session.SetInt32(SD.SessionCart,
-                        _unitOfWork.ShoppingCart.GetAll(
-                            //criteria: c => c.ApplicationUserID == user.Id).
-                            ).ToList().Count);
+                    //HttpContext.Session.SetInt32(SD.SessionCart,
+                    //    _unitOfWork.ShoppingCart.GetAll(
+                    //        //criteria: c => c.ApplicationUserID == user.Id).
+                    //        ).ToList().Count);
                 }
                 return View(HttpContext.Session.GetInt32(SD.SessionCart));
             }

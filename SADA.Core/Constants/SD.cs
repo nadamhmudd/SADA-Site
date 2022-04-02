@@ -12,6 +12,8 @@ public static class SD
     public const string SessionCart       = "SessionShoppingCart";
     public const string SessionLoggedUser = "SessionLoggedUser";
 
+    public const string ProductImagespath = @"images\products";
+
     public enum Status
     {
         Pending, Approved, Processing, Shipped, Delivered, Cancelled, Refunded

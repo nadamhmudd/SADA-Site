@@ -13,13 +13,8 @@ public interface IUnitOfWork
 
     public IBaseRepository<Category> Category { get; }
     public IProductRepository Product { get; }
-    public IBaseRepository<ProductImage> ProductImages { get; }
-    public IBaseRepository<ProductSize> ProductSizes { get; }
-    public IBaseRepository<ProductColor> ProductColors { get; }
 
-    public IShoppingCartRepository ShoppingCart { get; }
     public IOrderHeaderRepository OrderHeader { get; }
-    public IBaseRepository<OrderDetail> OrderDetail { get; }
 
     //Global Methods
     public void Save();

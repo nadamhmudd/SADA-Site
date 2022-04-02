@@ -8,7 +8,7 @@ namespace SADA.Infrastructure.EF.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            StreamReader r = new StreamReader(@"..\SADA.DataAccess\DataSources\PaymentMethods.json");
+            StreamReader r = new StreamReader(@"..\SADA.Infrastructure\DataSources\PaymentMethods.json");
             string jsonString = r.ReadToEnd();
             var data = JsonConvert.DeserializeObject<List<PaymentMethodsData>>(jsonString);
 

@@ -71,7 +71,7 @@ namespace SADA.Web.Areas.Client.Controllers
                     Count = item.Count,
                     Price = item.Product.Price
                 };
-                _unitOfWorks.OrderDetail.Add(orderDetail);
+                //_unitOfWorks.OrderDetail.Add(orderDetail);
                 _unitOfWorks.Save();
             }
 
@@ -108,12 +108,12 @@ namespace SADA.Web.Areas.Client.Controllers
             _unitOfWorks.Save();
 
             //remove shopping cart
-            List<ShoppingCart> ListCart = _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product"
-                //criteria: c => c.ApplicationUserID == orderHeader.ApplicationUserId
-                ).ToList();
-            _unitOfWorks.ShoppingCart.RemoveRange(ListCart);
-            _unitOfWorks.Save();
+            //List<ShoppingCart> ListCart = _unitOfWorks.ShoppingCart.GetAll(
+            //    includeProperties: "Product"
+            //    //criteria: c => c.ApplicationUserID == orderHeader.ApplicationUserId
+            //    ).ToList();
+            //_unitOfWorks.ShoppingCart.RemoveRange(ListCart);
+            //_unitOfWorks.Save();
 
             //clear session value for cart
             HttpContext.Session.Remove(SD.SessionCart);
@@ -125,33 +125,33 @@ namespace SADA.Web.Areas.Client.Controllers
         }
         public IActionResult Plus(int cartId)
         {
-            var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            _unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, 1);
-            _unitOfWorks.Save();
+            //var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
+            //_unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, 1);
+            //_unitOfWorks.Save();
 
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            if (cartFromDb.Count > 1)
-            {
-                _unitOfWorks.ShoppingCart.DecrementCount(cartFromDb, 1);
-            }
-            else //delete
-            {
-                _unitOfWorks.ShoppingCart.Remove(cartFromDb);
-                HttpContext.Session.DecrementValue(SD.SessionCart, 1);
-            }
-            _unitOfWorks.Save();
+            //var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
+            //if (cartFromDb.Count > 1)
+            //{
+            //    _unitOfWorks.ShoppingCart.DecrementCount(cartFromDb, 1);
+            //}
+            //else //delete
+            //{
+            //    _unitOfWorks.ShoppingCart.Remove(cartFromDb);
+            //    HttpContext.Session.DecrementValue(SD.SessionCart, 1);
+            //}
+            //_unitOfWorks.Save();
 
             return RedirectToAction(nameof(Index));
         }
         public IActionResult Remove(int cartId)
         {
-            var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            _unitOfWorks.ShoppingCart.Remove(cartFromDb);
-            _unitOfWorks.Save();
+            //var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
+            //_unitOfWorks.ShoppingCart.Remove(cartFromDb);
+            //_unitOfWorks.Save();
 
             HttpContext.Session.DecrementValue(SD.SessionCart, 1);
 
@@ -177,10 +177,11 @@ namespace SADA.Web.Areas.Client.Controllers
         }
         private IEnumerable<ShoppingCart> CollectOrderItems()
         {
-            return _unitOfWorks.ShoppingCart.GetAll(
-                includeProperties: "Product"
-                //,criteria: c => c.ApplicationUserID == _loggedUser.Id
-                );
+            return null;
+            //return _unitOfWorks.ShoppingCart.GetAll(
+            //    includeProperties: "Product"
+            //    //,criteria: c => c.ApplicationUserID == _loggedUser.Id
+            //    );
         }
         private Session CheckoutByStripe(IEnumerable<ShoppingCart> CartList)
         {

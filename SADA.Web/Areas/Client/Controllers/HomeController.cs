@@ -44,21 +44,22 @@ public class HomeController : Controller
         //get logged user
         //obj.ApplicationUserID = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
 
-        ShoppingCart cartFromDb = _unitOfWorks.ShoppingCart.GetFirstOrDefault( criteria: u 
-            => u.ProductId == obj.ProductId);
+        ShoppingCart cartFromDb = null;
+            //_unitOfWorks.ShoppingCart.GetFirstOrDefault( criteria: u 
+            //=> u.ProductId == obj.ProductId);
         /*u => u.ApplicationUserID == obj.ApplicationUserID &&*/
 
         if (cartFromDb is null)
         {
             //added first time
-            _unitOfWorks.ShoppingCart.Add(obj);
+           // _unitOfWorks.ShoppingCart.Add(obj);
             //update session value for cart counts
             HttpContext.Session.IncrementValue(SD.SessionCart,1);
         }
         else
         {
             //update count
-            _unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
+            //_unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
         }
         _unitOfWorks.Save();
 

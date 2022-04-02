@@ -6,14 +6,21 @@ namespace SADA.Web.Areas.Admin.Controllers;
 [Authorize(Roles = SD.Role_Admin)]
 public class OrderManagementController : Controller
 {
+    #region Props
     private readonly IUnitOfWork _unitOfWorks;
+
     [BindProperty]
     public OrderManagementVM OrderManagementVM { get; set; }
+    #endregion
+
+    #region Constructor(s)
     public OrderManagementController(IUnitOfWork unitOfWork)
     {
         _unitOfWorks = unitOfWork;
     }
+    #endregion
 
+    #region Actions
     public IActionResult Index() => View();
 
     public IActionResult Details(int orderId)
@@ -21,10 +28,11 @@ public class OrderManagementController : Controller
         OrderManagementVM = new OrderManagementVM()
         {
             OrderHeader  = _unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == orderId, "ApplicationUser"),
-            OrderDetails = _unitOfWorks.OrderDetail.GetAll(
-                    includeProperties: "Product"
-                   // criteria: o => o.OrderId == orderId
-                )
+            //OrderDetails = this.OrderHeader.
+            //_unitOfWorks.OrderDetail.GetAll(
+            //        includeProperties: "Product"
+            //       // criteria: o => o.OrderId == orderId
+            //    )
         };
         return View(OrderManagementVM);
     }
@@ -117,6 +125,7 @@ public class OrderManagementController : Controller
 
         return RedirectToAction("Details", "OrderManagement", new { orderId = OrderManagementVM.OrderHeader.Id });
     }
+    #endregion
 
     #region API CALLS
     [HttpGet]
