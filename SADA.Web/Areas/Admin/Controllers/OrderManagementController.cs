@@ -27,13 +27,14 @@ public class OrderManagementController : Controller
     {
         OrderManagementVM = new OrderManagementVM()
         {
-            OrderHeader  = _unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == orderId, "ApplicationUser"),
-            //OrderDetails = this.OrderHeader.
-            //_unitOfWorks.OrderDetail.GetAll(
-            //        includeProperties: "Product"
-            //       // criteria: o => o.OrderId == orderId
-            //    )
+            OrderHeader = _unitOfWorks.OrderHeader.GetFirstOrDefault(o => o.Id == orderId, "ApplicationUser"),
+            OrderDetails = new List<OrderDetail>()
         };
+        foreach (var order in OrderManagementVM.OrderHeader.Items)
+        {
+            order.Product = _unitOfWorks.Product.GetById(order.ProductId);
+        }
+
         return View(OrderManagementVM);
     }
 

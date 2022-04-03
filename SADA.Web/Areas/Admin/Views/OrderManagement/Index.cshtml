@@ -1,4 +1,4 @@
-﻿@using SADA.Service
+﻿@using SADA.Core.Constants
 @{
     ViewData["Title"] = "Orders Management";
     var status = Context.Request.Query["status"];
@@ -47,7 +47,7 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/DataTables/OrderManagementDataTable.js"></script>
+    <script src="~/js/DataTables/OrdersDtataTable.js"></script>
 }
 
 

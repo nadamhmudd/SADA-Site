@@ -1,5 +1,5 @@
 ﻿@model OrderManagementVM
-@using SADA.Service
+@using SADA.Core.Constants
 @{
     ViewData["Title"] = "Order Summary";
 }
@@ -54,13 +54,13 @@
                             <div class="row my-1">
                                 <div class="col-3">Email</div>
                                 <div class="col-9">
-                                   @*// <input asp-for="OrderHeader.ApplicationUser.Email" type="text" class="form-control" readonly />*@
+                                   <input asp-for="OrderHeader.ApplicationUser.Email" type="text" class="form-control" readonly />
                                 </div>
                             </div>
                             <div class="row my-1">
                                 <div class="col-3">Order Date</div>
                                 <div class="col-9">
-                                    @*<input asp-for="OrderHeader.OrderDate" type="text" class="form-control" readonly />*@
+                                    <input asp-for="OrderHeader.CreatedAt" type="text" class="form-control" readonly />
                                 </div>
                             </div>
                             <div class="row my-1">
@@ -109,17 +109,17 @@
                             <label class="badge bg-dark form-control my-2">Order Status - @Model.OrderHeader.OrderStatus</label>
 
                             <ul class="list-group mb-3">
-                                @foreach (var item in Model.OrderDetails)
+                                @foreach (var item in Model.OrderHeader.Items)
                                 {
                                     <li class="list-group-item d-flex justify-content-between p-2">
                                         <div class="row container">
                                             <div class="col-8">
                                                 <h6 class="my-0 text-primary">@item.Product.Name</h6>
-                                                <small class="text-muted">Price : EGB @item.Product.Price.ToString("N")</small><br />
+                                                <small class="text-muted">Price : EGB @item.Price.ToString("N")</small><br />
                                                 <small class="text-muted">Quantity : @item.Count</small>
                                             </div>
                                             <div class="col-4 text-end">
-                                                <p class="text-success">EGB @((item.Product.Price * item.Count).ToString("N"))</p>
+                                                <p class="text-success">EGB @((item.Price * item.Count).ToString("N"))</p>
                                             </div>
                                         </div>
                                     </li>

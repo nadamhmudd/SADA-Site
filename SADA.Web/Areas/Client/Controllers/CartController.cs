@@ -82,7 +82,7 @@ namespace SADA.Web.Areas.Client.Controllers
                 {
                     ProductId = item.ProductId,
                     Count = item.Count,
-                    Price = item.Product.Price
+                    Price = item.Price
                 };
                 ShoppingCartVM.OrderHeader.Items.Add(orderDetail);
             }
