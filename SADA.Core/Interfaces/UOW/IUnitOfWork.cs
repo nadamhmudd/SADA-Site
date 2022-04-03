@@ -1,5 +1,4 @@
 ﻿using SADA.Core.Interfaces.Repositories;
-using SADA.Core.Entities;
 
 namespace SADA.Core.Interfaces;
 public interface IUnitOfWork
@@ -10,7 +9,7 @@ public interface IUnitOfWork
     public IBaseRepository<PaymentMethod> PaymentMethod { get; }
 
     public IBaseRepository<ApplicationUser> ApplicationUser { get; }
-    public IBaseRepository<ShoppingCart> ShoppingCart { get; }
+    public IShoppingCartRepository ShoppingCart { get; }
 
     public IBaseRepository<Category> Category { get; }
     public IProductRepository Product { get; }

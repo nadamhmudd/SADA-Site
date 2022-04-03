@@ -36,31 +36,30 @@ public class HomeController : Controller
         return View(obj);
     }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    [Authorize] //only logged user can do it
+    [HttpPost, ValidateAntiForgeryToken, Authorize] //only logged user can do it
     public IActionResult Details(ShoppingCart obj)
     {
         if (!ModelState.IsValid)
             return View(obj);
         
-        var cart = _unitOfWorks.ShoppingCart.GetFirstOrDefault(
+        var cart = _unitOfWorks.ShoppingCart.GetFirstOrDefault(criteria:
             p => p.ProductId == obj.ProductId
             && p.Color == obj.Color && p.Size == obj.Size
         );
-        //.Any(p => p.Product.Colors.Any(c => c.HashValue == color) && p.Product.Sizes.Any(c => c.Size == size));
 
         if (cart is null)
         {
             //added for first time
             _unitOfWorks.ShoppingCart.Add(obj);
+            _unitOfWorks.Save();
             //update session value for cart counts
             HttpContext.Session.IncrementValue(SD.SessionCart, 1);
         }
         else
-            _unitOfWorks.ShoppingCart.Update(obj);
-
-        _unitOfWorks.Save();
+        {
+            _unitOfWorks.ShoppingCart.IncrementCount(cart, obj.Count);
+            _unitOfWorks.Save();
+        }
 
         return RedirectToAction(nameof(Index));
     }

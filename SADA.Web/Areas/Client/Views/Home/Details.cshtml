@@ -20,12 +20,14 @@
                             <h5 class="text-muted pb-2">
                                 @if (Model.Product.OnSale)
                                 {
+                                    <input asp-for="Price" hidden value=@(Model.Product.Price - Model.Product.DiscountAmount)/>
                                     <strike>LE @Model.Product.Price.ToString("N")  </strike>
                                     <text>LE @(Model.Product.Price - Model.Product.DiscountAmount)  </text>
                                     <span class="text-danger"><small>Save LE @Model.Product.DiscountAmount</small></span>
                                 }
                                 else
                                 {
+                                    <input asp-for="Price" hidden value=@Model.Product.Price/>
                                     <text>LE @Model.Product.Price </text>
                                 }
                             </h5>

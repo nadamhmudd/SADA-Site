@@ -13,7 +13,7 @@
 						Shopping Cart
 					</div>
 					<div class="col-6 text-end">
-						<a asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+						<a asp-controller="Home" asp-action="Index" class="btn btn-info btn-sm">Continue Shopping</a>
 					</div>
 				</div>
 			</div>
@@ -26,26 +26,29 @@
 						</div>
 						<div class="col-12 col-lg-6 pt-md-3">
 							<h5><strong>@item.Product.Name</strong></h5>
-							<p><small>@Html.Raw(item.Product.Description)</small></p>
+							<p>
+								<small><input type="color" value=@item.Color disabled /></small>
+								<small>@item.Size</small>
+							</p>
 						</div>
 						<div class="col-12  col-lg-5 text-center row">
 							<div class="col-4 text-md-right pt-4">
-								<h6><strong>@item.Product.Price.ToString("c")<span class="text-muted">&nbspx</span>@item.Count</strong></h6>
+								<h6><strong>LE @item.Price.ToString("N")<span class="text-muted">&nbspx</span>@item.Count</strong></h6>
 							</div>
 							<div class="col-6 col-sm-4 col-lg-6 pt-2">
 								<div class="w-75 btn-group" role="group">
-									<a asp-action="Plus"  asp-route-cartId="@item.Id" class="btn btn-primary">
-										<i class="bi bi-plus-square"></i>+
+									<a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-outline-light">
+										<i class="bi bi-plus-square"></i>
 									</a> &nbsp;
-									<a asp-action="Minus"  asp-route-cartId="@item.Id" class="btn btn-warning">
-										<i class="bi bi-dash-square"></i>-
+									<a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-dark">
+										<i class="bi bi-dash-square"></i>
 									</a>
 								</div>
 
 							</div>
 							<div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
-								<a asp-action="Remove"  asp-route-cartId="@item.Id" class="btn btn-danger">
-									<i class="bi bi-trash-fill"></i>DELETE
+								<a asp-action="Remove"  asp-route-cartId="@item.Id" class="btn btn-outline-danger">
+									<i class="bi bi-trash-fill"></i>
 								</a>
 							</div>
 						</div>
@@ -57,8 +60,8 @@
 					<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
 						<ul class="list-group">
 							<li class="list-group-item d-flex justify-content-between bg-light">
-								<span class="text-info"> Total (USD)</span>
-								<strong class="text-info">@Model.OrderHeader.OrderTotal</strong>
+								<span class="text-info"> Total (LE)</span>
+								<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("N")</strong>
 							</li>
 						</ul>
 					</div>

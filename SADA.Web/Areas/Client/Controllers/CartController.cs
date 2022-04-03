@@ -38,8 +38,8 @@ namespace SADA.Web.Areas.Client.Controllers
         {
             ShoppingCartVM = UploadCartFromDb();
             //add application user data
-            //ShoppingCartVM.OrderHeader.ApplicationUserId = _loggedUser.Id;
-            ///ShoppingCartVM.OrderHeader.ApplicationUser = _loggedUser;
+            ShoppingCartVM.OrderHeader.ApplicationUserId = _loggedUser.Id;
+            ShoppingCartVM.OrderHeader.ApplicationUser = _loggedUser;
             ShoppingCartVM.OrderHeader.Name = _loggedUser.Name;
             ShoppingCartVM.OrderHeader.PhoneNumber = _loggedUser.PhoneNumber;
             ShoppingCartVM.OrderHeader.StreetAddress = _loggedUser.StreetAddress;
@@ -48,13 +48,10 @@ namespace SADA.Web.Areas.Client.Controllers
             return View(ShoppingCartVM);
         }
 
-        [HttpPost]
-        [ActionName("Summary")]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Summary"), ValidateAntiForgeryToken]
         public IActionResult SummaryPost()
         {
             //OrderHeader
-            //ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
             ShoppingCartVM.OrderHeader.OrderStatus = SD.Status.Pending.ToString();
             ShoppingCartVM.OrderHeader.PaymentStatus = SD.Status.Pending.ToString();
             _unitOfWorks.OrderHeader.Add(ShoppingCartVM.OrderHeader);
@@ -123,35 +120,42 @@ namespace SADA.Web.Areas.Client.Controllers
 
             return View(id);
         }
+        
         public IActionResult Plus(int cartId)
         {
-            //var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            //_unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, 1);
-            //_unitOfWorks.Save();
+            var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
+            
+            _unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, 1);
+            
+            _unitOfWorks.Save();
 
             return RedirectToAction(nameof(Index));
         }
+        
         public IActionResult Minus(int cartId)
         {
-            //var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            //if (cartFromDb.Count > 1)
-            //{
-            //    _unitOfWorks.ShoppingCart.DecrementCount(cartFromDb, 1);
-            //}
-            //else //delete
-            //{
-            //    _unitOfWorks.ShoppingCart.Remove(cartFromDb);
-            //    HttpContext.Session.DecrementValue(SD.SessionCart, 1);
-            //}
-            //_unitOfWorks.Save();
+            var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
+            if (cartFromDb.Count > 1)
+            {
+                _unitOfWorks.ShoppingCart.DecrementCount(cartFromDb, 1);
+            }
+            else //delete
+            {
+                _unitOfWorks.ShoppingCart.Remove(cartFromDb);
+                HttpContext.Session.DecrementValue(SD.SessionCart, 1);
+            }
+            _unitOfWorks.Save();
 
             return RedirectToAction(nameof(Index));
         }
+        
         public IActionResult Remove(int cartId)
         {
-            //var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
-            //_unitOfWorks.ShoppingCart.Remove(cartFromDb);
-            //_unitOfWorks.Save();
+            var cartFromDb = _unitOfWorks.ShoppingCart.GetById(cartId);
+            
+            _unitOfWorks.ShoppingCart.Remove(cartFromDb);
+            
+            _unitOfWorks.Save();
 
             HttpContext.Session.DecrementValue(SD.SessionCart, 1);
 
@@ -170,19 +174,19 @@ namespace SADA.Web.Areas.Client.Controllers
             //calculate total
             foreach (var item in ShoppingCartVM.ListCart)
             {
-                ShoppingCartVM.OrderHeader.OrderTotal += (item.Product.Price * item.Count);
+                ShoppingCartVM.OrderHeader.OrderTotal += (item.Price * item.Count);
             }
 
             return ShoppingCartVM;
         }
+
         private IEnumerable<ShoppingCart> CollectOrderItems()
         {
-            return null;
-            //return _unitOfWorks.ShoppingCart.GetAll(
-            //    includeProperties: "Product"
-            //    //,criteria: c => c.ApplicationUserID == _loggedUser.Id
-            //    );
+            return _unitOfWorks.ShoppingCart.GetAll(
+                includeProperties: "Product",
+                criteria: c => c.UserId == _loggedUser.Id );
         }
+        
         private Session CheckoutByStripe(IEnumerable<ShoppingCart> CartList)
         {
             var options = _paymentController.Stripe(

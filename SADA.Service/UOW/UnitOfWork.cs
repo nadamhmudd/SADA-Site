@@ -21,7 +21,7 @@ namespace SADA.Service
             PaymentMethod = new BaseRepository<PaymentMethod>(_db.Set<PaymentMethod>());
 
             ApplicationUser = new BaseRepository<ApplicationUser>(_db.Set<ApplicationUser>());
-            ShoppingCart = new BaseRepository<ShoppingCart>(_db.Set<ShoppingCart>());
+            ShoppingCart = new ShoppingCartRepository(_db.Set<ShoppingCart>());
 
             Category = new BaseRepository<Category>(_db.Set<Category>());
             Product  = new ProductRepository(_db);
@@ -34,7 +34,7 @@ namespace SADA.Service
         public IBaseRepository<PaymentMethod> PaymentMethod { get; private set; }
 
         public IBaseRepository<ApplicationUser> ApplicationUser { get; private set; }
-        public IBaseRepository<ShoppingCart> ShoppingCart { get; private set; }
+        public IShoppingCartRepository ShoppingCart { get; private set; }
 
         public IBaseRepository<Category> Category { get; private set; }
         public IProductRepository Product { get; private set; }
