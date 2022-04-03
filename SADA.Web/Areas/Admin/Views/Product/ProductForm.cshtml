@@ -18,8 +18,8 @@
 					</div>
 
 					<div class="mb-3">
-							<label asp-for="Product.CoverUrl"></label>
-							<input type="file" id="uploadBox" name="file" class="form-control" /> @*name for controller*@
+						<label asp-for="Product.CoverUrl"></label>
+						<input type="file" id="uploadBox" name="cover" class="form-control" /> @*name for controller*@
 					</div>
 
 					<div class="row">
@@ -40,7 +40,7 @@
 					<div class="row">
 						<div class="mb-3 col-md-6">
 							<label asp-for="Product.Price"></label>
-							<input asp-for="Product.Price" class="form-control" id="price" value=500.0/>
+							<input asp-for="Product.Price" class="form-control" id="price" value=0.0/>
 							<span asp-validation-for="Product.Price" class="text-danger"></span> 
 						</div>
 
@@ -75,7 +75,6 @@
 						<label asp-for="Product.Colors"></label>
 						<p id="ColorList">
 							<input type="button" id="AddColorsPicker" value="+">
-							<input id="color" type="color" value="#ffffff" placeholder="#000000">
 						</p>
 					</div>
 
@@ -135,7 +134,7 @@
 			}
 			return true;
 		}
-		
+
 		//-----------------------------------------------
 		document.getElementById("onSale").onclick = function() { 
 			var element = document.getElementById("disscount");
@@ -160,25 +159,45 @@
 		});
 
 		//-----------------------------------------------
-		function AddEleemnt(parent, type, value){	
-			var element = document.createElement("input");
-			element.type = type;
-			element.value = value;
+		function AddColors(){	
+			var element	= document.createElement("input");
+			element.type = "color";
+			element.value = "#ffffff";
+			element.name = "colors";
 
 			const styleAtr = document.createAttribute("style");
 			styleAtr.value = "margin:3px" 
 			element.setAttributeNode(styleAtr);
 
-			parent.append(element);
+			document.getElementById("ColorList").append(element);
 		}
-		document.getElementById("AddColorsPicker").onclick = function() { 
-			AddEleemnt(document.getElementById("ColorList"), "color", "#ffffff" ); 
-		};
-		document.getElementById("AddSize").onclick = function() {
-			AddEleemnt(document.getElementById("sizesList"), "text", "XL");
-		};
-		document.getElementById("AddImage").onclick = function() { 
-			AddEleemnt(document.getElementById("images"), "file", ""); 
-		};
+		document.getElementById("AddColorsPicker").onclick = function() { AddColors(); };
+		
+		function AddSizes(){	
+			var element = document.createElement("input");
+			element.type = "text";
+			element.value = "XL";
+			element.name = "sizes";
+
+			const styleAtr = document.createAttribute("style");
+			styleAtr.value = "margin:3px" 
+			element.setAttributeNode(styleAtr);
+
+			document.getElementById("sizesList").append(element);
+		}
+		document.getElementById("AddSize").onclick = function() { AddSizes(); };
+
+		function AddImages(){	
+			var element = document.createElement("input");
+			element.type = "file";
+			element.name = "images";
+
+			const styleAtr = document.createAttribute("style");
+			styleAtr.value = "margin:3px" 
+			element.setAttributeNode(styleAtr);
+
+			document.getElementById("images").append(element);
+		}	
+		document.getElementById("AddImage").onclick = function() { AddImages(); };
 	</script>
 }

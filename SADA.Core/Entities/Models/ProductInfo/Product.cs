@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SADA.Core.Entities;
 public class Product : BaseEntity
@@ -27,10 +28,17 @@ public class Product : BaseEntity
 
     [Display(Name = "Category")]
     public int CategoryId { get; set; }
+
+    [ValidateNever, ForeignKey("CategoryId")]
     public Category Category { get; set; }
 
+    [ValidateNever]
     public List<ProductColor> Colors { get; set; }
+
+    [ValidateNever]
     public List<ProductSize> Sizes { get; set; }
+
+    [ValidateNever]
     public List<ProductImage> Imaages { get; set; }
 }
 

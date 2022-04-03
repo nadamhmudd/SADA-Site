@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SADA.Infrastructure.EF;
 
@@ -11,9 +12,10 @@ using SADA.Infrastructure.EF;
 namespace SADA.Infrastructure.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220402221858_EditProductColors")]
+    partial class EditProductColors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -604,9 +606,14 @@ namespace SADA.Infrastructure.EF.Migrations
 
                             SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
 
-                            b1.Property<string>("HashValue")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int>("B")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("G")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("R")
+                                .HasColumnType("int");
 
                             b1.HasKey("ProductId", "Id");
 

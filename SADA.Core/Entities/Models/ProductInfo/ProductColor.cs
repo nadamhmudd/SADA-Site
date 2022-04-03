@@ -6,5 +6,5 @@ namespace SADA.Core.Entities;
 public class ProductColor
 {
     public int Id { get; set; }
-    public string ColorName { get; set; }
+    public string  HashValue { get; set; }
 }
