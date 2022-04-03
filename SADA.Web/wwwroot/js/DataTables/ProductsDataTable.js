@@ -59,7 +59,7 @@ function LoadDataTable() {
                 render: function (data) {
                     return `
                         <div role="group" style="text-align:center">
-                            <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-outline-light btn-sm" style="margin-top:50px">
+                            <a href="/Admin/Product/ProductForm?id=${data}" class="btn btn-outline-light btn-sm" style="margin-top:50px">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
 
@@ -89,7 +89,7 @@ function Delete(id) {
         if (result.isConfirmed) {
             //here
             $.ajax({
-                url: '/api/Products/'+id,
+                url: '/api/Products/' + id,
                 method: 'DELETE',
                 success: function (data) {
                     dataTable.ajax.reload();
