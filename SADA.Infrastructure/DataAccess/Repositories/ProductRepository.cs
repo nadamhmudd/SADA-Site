@@ -25,7 +25,9 @@ namespace SADA.Infrastructure.Repositories
             
                 objFromData.Name = entity.Name;
                 objFromData.Description = entity.Description;
+                objFromData.StockCount = entity.StockCount;
                 objFromData.Price = entity.Price;
+                objFromData.OnSale = entity.OnSale;
                 objFromData.DiscountAmount = entity.DiscountAmount;
                 objFromData.DiscountPercentage = entity.DiscountPercentage;
                 objFromData.CategoryId = entity.CategoryId;

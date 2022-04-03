@@ -10,6 +10,7 @@ public interface IUnitOfWork
     public IBaseRepository<PaymentMethod> PaymentMethod { get; }
 
     public IBaseRepository<ApplicationUser> ApplicationUser { get; }
+    public IBaseRepository<ShoppingCart> ShoppingCart { get; }
 
     public IBaseRepository<Category> Category { get; }
     public IProductRepository Product { get; }

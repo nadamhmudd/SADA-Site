@@ -4,6 +4,8 @@
 }
 <form method="post">
     <input hidden asp-for="ProductId" />
+    <input hidden asp-for="UserId" />
+
     <div class="card bg-light container pt-4">
         <div class="card-header bg-dark text-light row ">
             <div class="col-12 col-md-6">
@@ -14,22 +16,50 @@
             <div class="container rounded p-2">
                 <div class="row">
                     <div class="col-8 col-lg-8">
+                        <div class="row pl-2">
+                            <h5 class="text-muted pb-2">
+                                @if (Model.Product.OnSale)
+                                {
+                                    <strike>LE @Model.Product.Price.ToString("N")  </strike>
+                                    <text>LE @(Model.Product.Price - Model.Product.DiscountAmount)  </text>
+                                    <span class="text-danger"><small>Save LE @Model.Product.DiscountAmount</small></span>
+                                }
+                                else
+                                {
+                                    <text>LE @Model.Product.Price </text>
+                                }
+                            </h5>
+                        </div>
 
                         <div class="row pl-2">
-                            <h5 class="text-muted pb-2">Price: egp <strike>@Model.Product.Price.ToString("N")</strike></h5>
-                        </div>
-                    
-                        <div class="row pl-2">
-                            <p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
-                        </div>
-                        <div class="row pl-2">
-                            <div class="col-2 text-primary"><h4>Count</h4></div>
-                            <div class="col-10">
-                                <input asp-for="Count" class="form-control"/>
-                                <span asp-validation-for="Count"  class="text-danger"></span>
+                            <div class="col-2 text-primary"><h4>SIZE</h4></div>
+                            <div class="col-10 pl-2">
+                                @foreach(var size in @Model.Product.Sizes)
+                                {
+                                  <input asp-for="Size" type="radio" value=@size.Size name="size"/>
+                                  <label> @size.Size</label><br />   
+                                }
+							    <span asp-validation-for="Size" class="text-danger"></span> 
                             </div>
-
                         </div>
+
+                        <br />
+                         <div class="row pl-2">
+                            <div class="col-2 text-primary"><h4>Color</h4></div>
+                            <div class="col-10 pl-2">
+                                @foreach(var color in @Model.Product.Colors)
+                                {
+                                  <input asp-for="Color" type="radio" value=@color.HashValue name="color"/>
+                                  <input type="color" value=@color.HashValue disabled/><br />
+                                }
+							    <span asp-validation-for="Color" class="text-danger"></span> 
+                            </div>
+                        </div>
+
+                        <div class="row pl-2">
+                            <p>@Model.Product.Description</p>
+                        </div>
+         
                     </div>
                     <div class="col-12 col-lg-3 offset-lg-1 text-center">
                         <img src="@Model.Product.CoverUrl" width="100%" class="rounded" />
@@ -39,10 +69,12 @@
         </div>
         <div class="card-footer">
             <div class="row">
-                <div class="col-12 col-md-6 pb-1">
-                    <button type="submit" value="Add to Cart" class="btn btn-outline-dark form-control" style="height:50px;">
-                        ADD TO BASKET
+                <div class="col-12 col-md-6">
+                    <button type="submit" value="Add to Cart" class="btn btn-outline-dark form-control"
+                    style="height:50px;width:50%">
+                        ADD TO Cart &nbsp &ensp;
                     </button>
+                    <input asp-for="Count" id="count" style="width:50px" class="text-center" />
                 </div>
             </div>
         </div>

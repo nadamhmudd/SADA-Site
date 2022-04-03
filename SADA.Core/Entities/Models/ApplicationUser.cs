@@ -9,6 +9,4 @@ public class ApplicationUser : IdentityUser
     
     public int? CityId { get; set; }
     public City? City { get; set; }
-
-    public List<ShoppingCart>? ShoppingCart { get; set; }
 }

@@ -29,18 +29,18 @@
 							<span asp-validation-for="Product.Name" class="text-danger"></span> 
 						</div>
 						<div class="mb-3 col-md-4">
-						<label asp-for="Product.CategoryId"></label>
-						<select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control">
-							<option disabled selected>--Select Category--</option>
-						</select>
-						<span asp-validation-for="Product.CategoryId" class="text-danger"></span> 
+							<label asp-for="Product.CategoryId"></label>
+							<select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-control">
+								<option disabled selected>--Select Category--</option>
+							</select>
+							<span asp-validation-for="Product.CategoryId" class="text-danger"></span> 
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="mb-3 col-md-6">
 							<label asp-for="Product.Price"></label>
-							<input asp-for="Product.Price" class="form-control" id="price" value=0.0/>
+							<input asp-for="Product.Price" class="form-control" id="price"/>
 							<span asp-validation-for="Product.Price" class="text-danger"></span> 
 						</div>
 
@@ -58,15 +58,20 @@
 						</div>
 					</div>
 
-					<div class="row" id="disscount" style="display: none">
+					@{var display="none";}
+					@if(@Model.Product.OnSale)
+					{
+						display = "flex";
+					}
+					<div class="row" id="disscount" style="display:@display">
 						<div class="mb-3 col-md-2">
 							<label asp-for="Product.DiscountPercentage"></label>
-							<input asp-for="Product.DiscountPercentage" id="percentage" class="form-control" value=0.0/>
+							<input asp-for="Product.DiscountPercentage" id="percentage" class="form-control"/>
 							<span asp-validation-for="Product.DiscountPercentage" class="text-danger"></span> 
 						</div>
 						<div class="mb-3 col-md-2">
 							<label asp-for="Product.DiscountAmount"></label>
-							<input asp-for="Product.DiscountAmount" id="amount" class="form-control" value=0.0/>
+							<input asp-for="Product.DiscountAmount" id="amount" class="form-control"/>
 							<span asp-validation-for="Product.DiscountAmount" class="text-danger"></span> 
 						</div>
 					</div>

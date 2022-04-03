@@ -1,15 +1,15 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace SADA.Web.Areas.Client.Controllers;
 
 [Area("Client")]
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
     private readonly IUnitOfWork _unitOfWorks;
-    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+
+    public HomeController(IUnitOfWork unitOfWork)
     {
-        _logger = logger;
         _unitOfWorks = unitOfWork;
     }
 
@@ -29,7 +29,8 @@ public class HomeController : Controller
         {
             Count = 1,
             ProductId = productId,
-            Product = _unitOfWorks.Product.GetFirstOrDefault(o => o.Id== productId, includeProperties: "Category")
+            UserId = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id,
+        Product = _unitOfWorks.Product.GetFirstOrDefault(o => o.Id== productId, includeProperties: "Category")
         };
 
         return View(obj);
@@ -40,35 +41,28 @@ public class HomeController : Controller
     [Authorize] //only logged user can do it
     public IActionResult Details(ShoppingCart obj)
     {
-        //retrieve application user id
-        //get logged user
-        //obj.ApplicationUserID = HttpContext.Session.GetObject<ApplicationUser>(SD.SessionLoggedUser).Id;
+        if (!ModelState.IsValid)
+            return View(obj);
+        
+        var cart = _unitOfWorks.ShoppingCart.GetFirstOrDefault(
+            p => p.ProductId == obj.ProductId
+            && p.Color == obj.Color && p.Size == obj.Size
+        );
+        //.Any(p => p.Product.Colors.Any(c => c.HashValue == color) && p.Product.Sizes.Any(c => c.Size == size));
 
-        ShoppingCart cartFromDb = null;
-            //_unitOfWorks.ShoppingCart.GetFirstOrDefault( criteria: u 
-            //=> u.ProductId == obj.ProductId);
-        /*u => u.ApplicationUserID == obj.ApplicationUserID &&*/
-
-        if (cartFromDb is null)
+        if (cart is null)
         {
-            //added first time
-           // _unitOfWorks.ShoppingCart.Add(obj);
+            //added for first time
+            _unitOfWorks.ShoppingCart.Add(obj);
             //update session value for cart counts
-            HttpContext.Session.IncrementValue(SD.SessionCart,1);
+            HttpContext.Session.IncrementValue(SD.SessionCart, 1);
         }
         else
-        {
-            //update count
-            //_unitOfWorks.ShoppingCart.IncrementCount(cartFromDb, obj.Count);
-        }
+            _unitOfWorks.ShoppingCart.Update(obj);
+
         _unitOfWorks.Save();
 
         return RedirectToAction(nameof(Index));
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
