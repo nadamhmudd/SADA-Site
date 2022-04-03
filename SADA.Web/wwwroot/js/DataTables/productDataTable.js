@@ -21,8 +21,11 @@ function LoadDataTable() {
             },
             {
                 data: "name",
-                render: function (data) {
-                    return `<div style='margin-top:50px'>${data}</div>`
+                render: function (data, type, product) {
+                    return `<div style='margin-top:50px'>
+                            <a href="/Client/Home/Details?productId=${product.id}">
+                                ${data}
+                            </a></div>`
                 },
                 width: "15%"
             },
