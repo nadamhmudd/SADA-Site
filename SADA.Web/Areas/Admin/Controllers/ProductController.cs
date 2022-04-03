@@ -32,7 +32,12 @@ public class ProductController : Controller
         //Initialize Model
         ProductVM productVM = new()
         {
-            Product = new(),
+            Product = new()
+            {
+                Colors = new List<ProductColor>(),
+                Sizes  = new List<ProductSize>(),
+                Imaages = new List<ProductImage>()
+            },
             CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
             {
                 Text  = i.Name,

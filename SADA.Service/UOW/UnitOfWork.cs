@@ -23,7 +23,7 @@ namespace SADA.Service
             ApplicationUser = new BaseRepository<ApplicationUser>(_db.Set<ApplicationUser>());
 
             Category = new BaseRepository<Category>(_db.Set<Category>());
-            Product  = new ProductRepository(_db.Set<Product>());
+            Product  = new ProductRepository(_db);
 
             OrderHeader = new OrderHeaderRepository(_db.Set<OrderHeader>());
         }
