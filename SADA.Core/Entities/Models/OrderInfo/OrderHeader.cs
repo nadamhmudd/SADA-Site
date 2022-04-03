@@ -1,9 +1,14 @@
-﻿namespace SADA.Core.Entities;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SADA.Core.Entities;
 public class OrderHeader : BaseEntity
 {
     public List<OrderDetail> Items { get; set; }
 
     public int PaymentMethodId { get; set; }
+
+    [ValidateNever, ForeignKey("PaymentMethodId")]
     public PaymentMethod PaymentMethod { get; set; }
 
     public double OrderTotal { get; set; } 
@@ -17,6 +22,8 @@ public class OrderHeader : BaseEntity
 
     //client data
     public string ApplicationUserId { get; set; }
+
+    [ValidateNever, ForeignKey("ApplicationUserId")]
     public ApplicationUser ApplicationUser { get; set; }
 
     public string Name { get; set; }
@@ -24,5 +31,7 @@ public class OrderHeader : BaseEntity
     public string StreetAddress { get; set; }
    
     public int CityId { get; set; }
+
+    [ValidateNever, ForeignKey("CityId")]
     public City City { get; set; }
 }

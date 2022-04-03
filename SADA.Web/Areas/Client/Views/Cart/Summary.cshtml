@@ -7,7 +7,6 @@
 }
 <form method="post">
 	<br />
-	@*<input hidden asp-for="OrderHeader.ApplicationUserId" />*@
 	<input hidden asp-for="OrderHeader.OrderTotal" />
 
 	<div class="container">
@@ -56,29 +55,43 @@
 									<input asp-for="OrderHeader.StreetAddress" class="form-control" />
 								</div>
 							</div>
+
+
 							<div class="row my-1">
 								<div class="col-3">
-									<label>City</label>
+									<label>Governorates</label>
 								</div>
 								<div class="col-9">
-									<input asp-for="OrderHeader.City" class="form-control" />
+									<select asp-items="@Model.Governorates" class="form-control">
+										<option disabled selected>----</option>
+									</select>
 								</div>
 							</div>
-							<br />
 
-							<fieldset class="form-group">
-							  <legend class="mt-4">
-								  <span class="text-info">Select A Payment Method:</span>
-							  </legend>
-							  @*@foreach(var obj in (SD.PaymentMethods[])Enum.GetValues(typeof(SD.PaymentMethods)))
-							  {
-								 <div class="form-check">
-									<label class="form-check-label">
-										<input asp-for="OrderHeader.PaymentOption" type="radio" class="form-check-input" value="@obj">@obj
-									</label>
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Cities</label>
 								</div>
-							  }*@
-							</fieldset>
+								<div class="col-9">
+									<select asp-for="OrderHeader.CityId" asp-items="@Model.Cities" class="form-control">
+										<option disabled selected>----</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="row my-1">
+								<div class="col-3">
+									<label>Payment Method</label>
+								</div>
+								<div class="col-9">
+									<select asp-for="OrderHeader.PaymentMethodId" asp-items="@Model.PaymentMethod" class="form-control">
+										<option disabled selected>--Select A Payment Method--</option>
+									</select>
+								</div>
+								<span asp-validation-for="OrderHeader.PaymentMethodId" class="text-danger"></span> 
+							</div>
+
+							<br />
 						</div>
 
 						<div class="col-12 col-lg-5 offset-lg-1">
@@ -91,9 +104,9 @@
 										<div>
 											<h6 class="my-0">@item.Product.Name</h6>
 											<small class="text-muted">Quantity:@item.Count</small><br>
-											<small class="text-muted">Price: EGP @item.Product.Price.ToString("N")</small>
+											<small class="text-muted">Price: LE @item.Price.ToString("N")</small>
 										</div>
-										<span class="text-muted">EGP&nbsp@((item.Product.Price*item.Count).ToString("N"))</span>
+										<span class="text-muted">EGP&nbsp@((item.Price*item.Count).ToString("N"))</span>
 									</li>
 								}
 								

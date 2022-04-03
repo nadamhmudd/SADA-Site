@@ -14,6 +14,9 @@ public static class SD
 
     public const string ProductImagespath = @"images\products";
 
+    public const int PaymentByCashID = 1; //based on json file
+    public const int PaymentByCardID = 2; //based on json file
+
     public enum Status
     {
         Pending, Approved, Processing, Shipped, Delivered, Cancelled, Refunded
